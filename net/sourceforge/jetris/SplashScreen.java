@@ -18,8 +18,8 @@ public class SplashScreen extends JWindow {
     SplashScreen() {
         super();
         getContentPane().add(new JLabel(
-                new ImageIcon(JetrisMainFrame.loadImage("splash.png"))), 
-                BorderLayout.CENTER);
+                new ImageIcon("splash.png")), 
+                BorderLayout.CENTER);// FIX: this will not work when packaged in a jar file
         setSize(new Dimension(W,H));
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(screenSize.width/2 - W/2, screenSize.height/2 - H/2);
