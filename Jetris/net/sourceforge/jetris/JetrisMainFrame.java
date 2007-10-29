@@ -795,6 +795,20 @@ public class JetrisMainFrame extends JFrame  {
     }
 
     private void restart() {
+    	boolean wasPause = isPause;
+    	if (!isPause)
+    		pause();
+    	int result = JOptionPane.showConfirmDialog(this,
+    			"Are you sure you want to restart?",
+    			"Confirm Restart",
+    			JOptionPane.YES_NO_OPTION,
+    			JOptionPane.QUESTION_MESSAGE);
+    	if (result == JOptionPane.NO_OPTION) {
+    		if (!wasPause)
+    			pause();
+    		return;
+    	}
+    	
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
                 tg.gLines.get(i)[j] = 0;
