@@ -53,9 +53,15 @@ public class TwoPlayerGame extends JFrame  {
 		private AudioClip[] clip = new AudioClip[3];
     	private int soundcycle = 0;
     	private boolean sound = true;
+		private int gameType;
+		private final int LOSE = 0;
+		private final int SCORE = 1;
+		private final int LINES = 2;
     
-    public TwoPlayerGame() {
+    public TwoPlayerGame(int gameType) {
+
         super(NAME);
+        this.gameType = gameType;
    		initMenu();
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mf = new Player(1, this);
