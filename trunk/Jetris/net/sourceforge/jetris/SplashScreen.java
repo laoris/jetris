@@ -18,7 +18,7 @@ public class SplashScreen extends JWindow {
     SplashScreen() {
         super();
         getContentPane().add(new JLabel(
-                new ImageIcon(JetrisMainFrame.loadImage("splash.png"))), 
+                new ImageIcon(TwoPlayerGame.loadImage("splash.png"))), 
                 BorderLayout.CENTER);
         setSize(new Dimension(W,H));
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
