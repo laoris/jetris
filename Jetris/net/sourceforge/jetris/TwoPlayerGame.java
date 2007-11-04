@@ -9,6 +9,7 @@ import javax.swing.KeyStroke;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.Box;
 import javax.swing.JTable;
@@ -41,11 +42,15 @@ public class TwoPlayerGame extends JFrame  {
     	private HelpDialog helpDialog;
     	private JMenuItem jetrisRestart;
     	private JMenuItem jetrisPause;
+    	private JMenuItem jetrisGame;
     	private JMenuItem jetrisMusic;
     	private JMenuItem jetrisHiScore;
     	private JMenuItem jetrisExit;
     	private JMenuItem helpAbout;
-    	private JMenuItem helpJetris;	
+    	private JMenuItem helpJetris;
+    	private JMenuItem jetrisGM1;
+    	private JMenuItem jetrisGM2;
+    	private JMenuItem jetrisGM3;	
  		private JPanel about;
  		private JPanel hiScorePanel;
     	private final Player mf;
@@ -53,39 +58,74 @@ public class TwoPlayerGame extends JFrame  {
 		private AudioClip[] clip = new AudioClip[3];
     	private int soundcycle = 0;
     	private boolean sound = true;
-		private int gameType;
-		private final int LOSE = 0;
-		private final int SCORE = 1;
-		private final int LINES = 2;
-    
-    public TwoPlayerGame(int gameType) {
+    	private InteractionThread it;
+    	private GameOverThread got;
+    	private boolean message;
+    	private TwoPlayerGame frame;
 
+    private class InteractionThread extends Thread {
+   
+        public void run() {
+        	
+        	mf.setPlayerSpeed(mf2.tg.getOpponentSpeed());
+        	mf2.setPlayerSpeed(mf.tg.getOpponentSpeed());
+        	mf.tg.playerAttacked(mf2.tg.attackPlayer());
+        	mf2.tg.playerAttacked(mf.tg.attackPlayer());
+        }
+    }
+    
+    private class GameOverThread extends Thread {
+   
+        public void run() {
+        		if(mf.getGameOver()) {
+        			mf2.isGameOver = mf.isGameOver;
+        			if(!message){
+        				message = true;
+        				JOptionPane.showMessageDialog(frame,"                          Player 2 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
+        			}
+        		} else if(mf2.getGameOver()){
+        			mf.isGameOver = mf2.isGameOver;
+        			if(!message){
+        				message = true;
+        				JOptionPane.showMessageDialog(frame,"                          Player 1 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
+        			}
+        		}
+   		}
+   		
+    }    
+    
+    public TwoPlayerGame() {
         super(NAME);
-        this.gameType = gameType;
    		initMenu();
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mf = new Player(1, this);
-        mf2 = new Player(2, this);
+   		it = new InteractionThread();
+   		got = new GameOverThread();
+   		frame = this;
+        mf = new Player(1,it, got);
+        mf2 = new Player(2,it, got);
+
+
         this.getContentPane().add(mf, BorderLayout.WEST);
         this.getContentPane().add(mf2, BorderLayout.EAST);
+        this.getContentPane().add(getButtonPanel(), BorderLayout.CENTER);
         this.getContentPane().add(getCopyrightPanel(), BorderLayout.SOUTH);
    		pack();
    		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
    		setVisible(true);
    		this.setResizable(false);
-        //clip[0] = Applet.newAudioClip(getClass().getResource("Tetrisa.mid"));
-        //clip[1] = Applet.newAudioClip(getClass().getResource("Tetrisb.mid"));
-        //clip[2] = Applet.newAudioClip(getClass().getResource("Tetrisc.mid"));             
-        //clip[0].loop();
+        clip[0] = Applet.newAudioClip(getClass().getResource("Tetrisa.mid"));
+        clip[1] = Applet.newAudioClip(getClass().getResource("Tetrisb.mid"));
+        clip[2] = Applet.newAudioClip(getClass().getResource("Tetrisc.mid"));             
+        clip[0].loop();
 		
         addWindowFocusListener(new WindowFocusListener(){
 
             public void windowGainedFocus(WindowEvent arg0) {}
 
             public void windowLostFocus(WindowEvent arg0) {
-                mf.isPause = true;
-                mf2.isPause = true;
+                mf.setPaused();
+                mf2.setPaused();
             }
         });
 
@@ -101,9 +141,6 @@ public class TwoPlayerGame extends JFrame  {
                     mf2.moveDown();
                 } else if(code == KeyEvent.VK_UP) {
                     mf2.rotation();
-                    mf.playerspeed = mf2.tg.opponentspeed;
-                    mf.attacked += mf2.tg.attack;
-                    mf2.tg.attack = 0;
                 } else if(code == KeyEvent.VK_SPACE) {
                     mf2.moveDrop();
                 } else if(code == KeyEvent.VK_A) {
@@ -114,15 +151,66 @@ public class TwoPlayerGame extends JFrame  {
                     mf.moveDown();
                 } else if(code == KeyEvent.VK_W) {
                     mf.rotation();
-                    mf2.playerspeed = mf.tg.opponentspeed;
-                    mf2.attacked += mf.tg.attack;
-                    mf.tg.attack = 0;
                 } else if(code == KeyEvent.VK_Q) {
                     mf.moveDrop();
                 }
             }
         };
         addKeyListener(keyHandler);
+
+    }
+    
+    public JPanel getButtonPanel() {
+        JPanel r = new JPanel();
+        BoxLayout rL = new BoxLayout(r,BoxLayout.Y_AXIS);
+        r.setLayout(rL);
+        Dimension ra = new Dimension(5, 0);
+        Dimension d = new Dimension(4*18, 4*18);
+
+        JPanel jp = new JPanel();
+
+        //BUTTONS
+        r.add(Box.createRigidArea(new Dimension(0, 10)));
+        
+        jp = new JPanel();
+        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+        jp.add(Box.createRigidArea(ra));
+        JButton restartBut = new JButton("Restart");
+        restartBut.setToolTipText("Press 'R'");
+        restartBut.setFocusable(false);
+        restartBut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                	restart();
+            }
+        });
+        d = new Dimension(90, 30);
+        restartBut.setMinimumSize(d);
+        restartBut.setPreferredSize(d);
+        restartBut.setMaximumSize(d);
+        jp.add(restartBut);
+        jp.add(Box.createHorizontalGlue());
+        r.add(jp);
+        
+        r.add(Box.createRigidArea(new Dimension(0, 5)));
+        
+        jp = new JPanel();
+        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+        jp.add(Box.createRigidArea(ra));
+        JButton pauseBut = new JButton("Pause");
+        pauseBut.setToolTipText("Press 'P'");
+        pauseBut.setFocusable(false);
+        pauseBut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                pause();
+            }
+        });
+        pauseBut.setMinimumSize(d);
+        pauseBut.setPreferredSize(d);
+        pauseBut.setMaximumSize(d);
+        jp.add(pauseBut);
+        jp.add(Box.createHorizontalGlue());
+        r.add(jp);
+        return r;
     }
 
     private void initMenu() {
@@ -137,6 +225,12 @@ public class TwoPlayerGame extends JFrame  {
         mJetris.setText("Jetris");
         mJetris.setMnemonic('J');
         {
+            jetrisGame = new JMenuItem("1 Player Game");
+            mJetris.add(jetrisGame);
+            setKeyAcceleratorMenu(jetrisGame, 'G',0);
+            jetrisGame.addActionListener(mH);
+            jetrisGame.setMnemonic('G');
+
             jetrisRestart = new JMenuItem("Restart");
             mJetris.add(jetrisRestart);
             setKeyAcceleratorMenu(jetrisRestart, 'R',0);
@@ -153,7 +247,7 @@ public class TwoPlayerGame extends JFrame  {
             mJetris.add(jetrisMusic);
             setKeyAcceleratorMenu(jetrisMusic, 'M',0);
             jetrisMusic.addActionListener(mH);
-            jetrisMusic.setMnemonic('S');
+            jetrisMusic.setMnemonic('M');
             
             mJetris.addSeparator();
             
@@ -170,6 +264,31 @@ public class TwoPlayerGame extends JFrame  {
             setKeyAcceleratorMenu(jetrisExit, KeyEvent.VK_ESCAPE, 0);
             jetrisExit.addActionListener(mH);
             jetrisExit.setMnemonic('X');
+        }
+        
+        JMenu mGameMode = new JMenu();
+        menu.add(mGameMode);
+        mGameMode.setText("Game Mode");
+        mGameMode.setMnemonic('G');
+        {
+            jetrisGM1 = new JMenuItem("Blood Sacrifice");
+            mGameMode.add(jetrisGM1);
+            setKeyAcceleratorMenu(jetrisGM1, KeyEvent.VK_F5,0);
+            jetrisGM1.addActionListener(mH);
+            jetrisGM1.setMnemonic('J');
+            
+            jetrisGM2 = new JMenuItem("Orgy of Gore");
+            mGameMode.add(jetrisGM2);
+            setKeyAcceleratorMenu(jetrisGM2, KeyEvent.VK_F6,0);
+            jetrisGM2.addActionListener(mH);
+            jetrisGM2.setMnemonic('J');
+            
+            jetrisGM3 = new JMenuItem("Entrails Eater");
+            mGameMode.add(jetrisGM3);
+            setKeyAcceleratorMenu(jetrisGM3, KeyEvent.VK_F7,0);
+            jetrisGM3.addActionListener(mH);
+            jetrisGM3.setMnemonic('J');
+            	        	
         }
         
         JMenu mHelp = new JMenu();
@@ -281,28 +400,29 @@ public class TwoPlayerGame extends JFrame  {
     }
     
     private synchronized void pause() {
-    	if(mf.isPause != mf2.isPause){
-    		mf.isPause = true;
-    		mf2.isPause = true;
+    	if(mf.isPaused() != mf2.isPaused()){
+    		mf.setPaused();
+    		mf2.setPaused();
     	} else {
-        	mf.isPause = !mf.isPause;
-        	mf2.isPause = !mf2.isPause;
+        	mf.pause();
+        	mf2.pause();
     	}
     }
 
-    private void restart() {
+    public void restart() {
         mf.restart();
         mf2.restart();
+        message = false;
     }
 
 	private void sound() {
 		if(sound){
-			//clip[soundcycle].stop();
+			clip[soundcycle].stop();
 			soundcycle++;
 			if(soundcycle > 2)
 				soundcycle = 0;
 		} else
-			//clip[soundcycle].loop();	
+			clip[soundcycle].loop();	
 		sound = !sound;
 	}
     
@@ -333,8 +453,19 @@ public class TwoPlayerGame extends JFrame  {
                     restart();
                 } else if (tmp == jetrisPause) {
                     pause();
+                } else if (tmp == jetrisGame) {
+                	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
+                		setVisible(false);
+                		clip[soundcycle].stop();
+                		//clip.dispose();
+                		mf.stopTimeThread();
+                		mf.dispose();
+                		mf2.stopTimeThread();
+                		OnePlayerGame mf = new OnePlayerGame();
+                		dispose();
+                	}
                 } else if (tmp == jetrisMusic) {
-                	sound();
+                	sound();               	
                 } else if (tmp == jetrisHiScore) {
                     //showHiScore();
                 } else if (tmp == jetrisExit) {

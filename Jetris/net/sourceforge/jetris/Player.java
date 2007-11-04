@@ -47,20 +47,19 @@ public class Player extends JPanel  {
     private Figure fNext;
     private FigureFactory ff;
     private boolean isNewFigureDroped;
-    private boolean isGameOver;
+    boolean isGameOver;
     private Color nextBg;
     private TimeThread tt;
     private int player;
     private JPanel hiScorePanel;
     private AudioClip gameover;
     protected TetrisGrid tg;
-    protected boolean isPause;
-    int playerspeed = 0;
-    int difference = 0;
-    int attacked = 0;
+    private boolean isPause;
+    private int playerspeed = 0;
+    private int difference = 0;
+    private Thread got;
     
     // used to access the overall game frame
-    //TwoPlayerGame mainFrame;
     
     private class GridThread extends Thread {
         
@@ -71,10 +70,11 @@ public class Player extends JPanel  {
                 while (true) {
                     if (isGameOver || isPause) {
                         Thread.sleep(50);
+                        got.run();
                     } else {
                         if(isNewFigureDroped) {
                             isNewFigureDroped = false;
-                            difference = playerspeed-tg.opponentspeed;
+                            difference = playerspeed-tg.getOpponentSpeed();
                             if(difference < 0) difference = 0;
                             //System.out.println("Player " + player + " Fallrate = " + (1100-difference*50-50*tg.getLevel()) + " milliseconds");
                             count = 0;
@@ -87,10 +87,6 @@ public class Player extends JPanel  {
                         if(count + 50*difference + 50*tg.getLevel() >= 1100) {
                             count = 0;
                             nextY++;
-                            while(attacked > 0) {
-                            	tg.addLines();
-                            	attacked--;
-                            }
                             nextMove();
                         }
                     } 
@@ -131,11 +127,17 @@ public class Player extends JPanel  {
                     Thread.sleep(50);
                     if (isGameOver) {
                         Graphics g = playPanel.getGraphics();
-                        Font font = new Font(g.getFont().getFontName(), Font.BOLD, 24);
+                        Font font = new Font(g.getFont().getFontName(), Font.BOLD, 30);
                         g.setFont(font);
-                        g.drawString("GAME OVER", 47, 250);
+						g.setColor(Color.BLACK);
+                        g.drawString("GAME OVER", 33, 250);
+
                     } else if(isPause) {
-                        time.setText("PAUSED");
+						Graphics g = playPanel.getGraphics();
+                        Font font = new Font(g.getFont().getFontName(), Font.BOLD, 30);
+                        g.setFont(font);
+						g.setColor(Color.BLACK);
+                        g.drawString("PAUSED", 47, 250);
                     } else if(count >= 1000) {
                         count = 0;
                         incSec();
@@ -174,20 +176,15 @@ public class Player extends JPanel  {
         }
     }
     
-    public Player(int player, JFrame test) {
-        
-        
-        //mainFrame = new TwoPlayerGame();
-     	//if (test instanceof TwoPlayerGame)
-     	//	this.mainFrame = (TwoPlayerGame) test;
+    public Player(int player, Thread it, Thread got) {
         
         this.player = player;
+        this.got = got;
         font = new Font("Dialog", Font.PLAIN, 12);        
-        //gameover = Applet.newAudioClip(getClass().getResource("Tetrisgo.mid"));
-        tg = new TetrisGrid();
+        gameover = Applet.newAudioClip(getClass().getResource("Tetrisgo.mid"));
+        tg = new TetrisGrid(it);
         ff = new FigureFactory();
         nextBg = new Color(238,238,238);
-
         JPanel all = new JPanel(new BorderLayout());
         if(player != 0){
         	JPanel labelPanel = new JPanel();
@@ -231,7 +228,7 @@ public class Player extends JPanel  {
         return playPanel;
     }
     
-    private JPanel getMenuPanel() {
+    public JPanel getMenuPanel() {
         JPanel r = new JPanel();
         BoxLayout rL = new BoxLayout(r,BoxLayout.Y_AXIS);
         r.setLayout(rL);
@@ -373,6 +370,8 @@ public class Player extends JPanel  {
         	
         
         //BUTTONS
+        if(player == 0)
+        {
         r.add(Box.createRigidArea(new Dimension(0, 10)));
         
         jp = new JPanel();
@@ -383,9 +382,6 @@ public class Player extends JPanel  {
         restartBut.setFocusable(false);
         restartBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            //    if (player == 1 || player == 2)
-            //    	this.mainFrame.restart();
-            //    else
                 	restart();
             }
         });
@@ -416,7 +412,7 @@ public class Player extends JPanel  {
         jp.add(pauseBut);
         jp.add(Box.createHorizontalGlue());
         r.add(jp);
-
+        }
         return r;
     }
     
@@ -619,7 +615,7 @@ public class Player extends JPanel  {
         showNext(fNext);
 
         isGameOver = tg.isGameOver(f);
-        
+
 
         isNewFigureDroped = true;
         updateStats();
@@ -684,6 +680,10 @@ public class Player extends JPanel  {
     
     public synchronized void pause() {
         isPause = !isPause;
+		if (!isGameOver && !isPause) {
+			paintTG();
+			paintNewPosition();
+		}
     }
 
     public void restart() {
@@ -696,7 +696,8 @@ public class Player extends JPanel  {
         } 
         ff.resetCounts();
 
-        tg.opponentspeed = 0;
+        tg.setOpponentSpeed(0);
+        tg.resetAttack();
         playerspeed = 0;
         isGameOver = false;
         isPause = false;
@@ -756,4 +757,26 @@ public class Player extends JPanel  {
         
         //hiScorePanel.add(jb, BorderLayout.SOUTH);
     }
+    
+    public void stopTimeThread() {
+    	tt.stop();
+    }
+    
+    public void setPlayerSpeed(int amount) {
+    	playerspeed = amount;
+    }
+    
+    public boolean isPaused(){
+    	return isPause;
+    }
+    public void setPaused() {
+    	isPause = true;
+    }
+    
+    public boolean getGameOver() {
+    	return isGameOver;
+    }
+    
+
+    
 }

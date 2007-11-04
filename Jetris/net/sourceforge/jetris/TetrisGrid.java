@@ -19,11 +19,14 @@ public class TetrisGrid implements Serializable{
     private int score;
     private int[] dropLines;
     public int level;
-    public int opponentspeed = 0;
+    private int opponentspeed = 0;
     HiScore[] hiScore;
-    int attack = 0;
+    private int attack = 0;
+    private int attacked = 0;
+    private Thread it;
     
-    TetrisGrid() {
+    TetrisGrid(Thread it) {
+    	this.it = it;
         gLines = new LinkedList<int[]>();
         for (int i = 0; i < 20; i++) {
             gLines.add(new int[10]);
@@ -55,12 +58,16 @@ public class TetrisGrid implements Serializable{
                 f.setOffset(f.offsetXLast,f.offsetYLast);
                 addFiguretoGrid(f);
                 eliminateLines();
+                it.run();
+                addLines();
                 return true;
             }
             if(gLines.get(f.arrY[j]+f.offsetY)[f.arrX[j]+f.offsetX] != 0) {
                 f.setOffset(f.offsetXLast,f.offsetYLast);
                 addFiguretoGrid(f);
                 eliminateLines();
+                it.run();
+                addLines();
                 return true;
             }
         }
@@ -91,7 +98,6 @@ public class TetrisGrid implements Serializable{
         int lines = 0;
         for (Iterator iter = gLines.iterator(); iter.hasNext();) {
             int[] el = (int[]) iter.next();
-            System.out.println("El = " +el[0] + " " +el[1] + " " +el[2] + " " +el[3] + " " +el[4] + " " +el[5] + " " +el[6] + " " +el[7] + " " +el[8] + " " +el[9]);
             boolean isFull = true;
             for (int j = 0; j < 10; j++) {
                 if(el[j]==0) isFull = false;
@@ -127,6 +133,8 @@ public class TetrisGrid implements Serializable{
     
     public void addLines() {
 			
+		while(attacked > 0) {
+			        	
 			Random r = new Random();
 			int[] el = new int[10];
 			for(int i = 0; i < 10;i++)
@@ -134,10 +142,11 @@ public class TetrisGrid implements Serializable{
 			el[r.nextInt(9)] = 0;
 			gLines.remove(0);
 			gLines.add(el);
+			attacked--;
+		}
     }
     
     boolean isGameOver(Figure f) {
-        
         return !isNextMoveValid(f, 4, 0);
     }
     
@@ -207,4 +216,27 @@ public class TetrisGrid implements Serializable{
         }
         return sb.toString();
     }
+    
+    public int attackPlayer() {
+    	int tmp = attack;
+    	attack = 0;
+    	return tmp;
+    }
+    
+    public void resetAttack(){
+    	attack = 0;
+    }
+
+    public void playerAttacked(int lines) {
+    	attacked += lines;
+    }
+    
+    public int getOpponentSpeed(){
+    	return opponentspeed;
+    }
+
+    public void setOpponentSpeed(int n){
+    	opponentspeed = n;
+    }
+
 }
