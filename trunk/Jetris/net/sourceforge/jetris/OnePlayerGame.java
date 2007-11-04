@@ -39,6 +39,7 @@ public class OnePlayerGame extends JFrame  {
     	private KeyListener keyHandler;
     	private Font font;
     	private HelpDialog helpDialog;
+    	private JMenuItem jetrisGame;
     	private JMenuItem jetrisRestart;
     	private JMenuItem jetrisPause;
     	private JMenuItem jetrisMusic;
@@ -52,12 +53,16 @@ public class OnePlayerGame extends JFrame  {
     	private AudioClip[] clip = new AudioClip[3];
     	private int soundcycle = 0;
     	private boolean sound = true;
+    	private Thread thread;
+    	private OnePlayerGame frame;
     
     public OnePlayerGame() {
         super(NAME);
    		initMenu();
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mf = new Player(0, this);
+   		thread = new Thread();
+   		frame = this;
+        mf = new Player(0, thread, thread);
         this.getContentPane().add(mf, BorderLayout.CENTER);
         this.getContentPane().add(getCopyrightPanel(), BorderLayout.SOUTH);
    		pack();
@@ -65,16 +70,16 @@ public class OnePlayerGame extends JFrame  {
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
    		setVisible(true);
    		this.setResizable(false);
-        //clip[0] = Applet.newAudioClip(getClass().getResource("Tetrisb.mid"));
-        //clip[1] = Applet.newAudioClip(getClass().getResource("Tetrisc.mid"));
-        //clip[2] = Applet.newAudioClip(getClass().getResource("Tetrisa.mid"));             
-        //clip[0].loop();
+        clip[0] = Applet.newAudioClip(getClass().getResource("Tetrisb.mid"));
+        clip[1] = Applet.newAudioClip(getClass().getResource("Tetrisc.mid"));
+        clip[2] = Applet.newAudioClip(getClass().getResource("Tetrisa.mid"));             
+        clip[0].loop();
         addWindowFocusListener(new WindowFocusListener(){
 
             public void windowGainedFocus(WindowEvent arg0) {}
 
             public void windowLostFocus(WindowEvent arg0) {
-                mf.isPause = true;
+                mf.setPaused();
             }
         });
 
@@ -110,6 +115,12 @@ public class OnePlayerGame extends JFrame  {
         mJetris.setText("Jetris");
         mJetris.setMnemonic('J');
         {
+            jetrisGame = new JMenuItem("2 Player Game");
+            mJetris.add(jetrisGame);
+            setKeyAcceleratorMenu(jetrisGame, 'G',0);
+            jetrisGame.addActionListener(mH);
+            jetrisGame.setMnemonic('G');
+            
             jetrisRestart = new JMenuItem("Restart");
             mJetris.add(jetrisRestart);
             setKeyAcceleratorMenu(jetrisRestart, 'R',0);
@@ -254,7 +265,7 @@ public class OnePlayerGame extends JFrame  {
     }
     
     private synchronized void pause() {
-       	mf.isPause = !mf.isPause;
+       	mf.pause();
     }
 
     private void restart() {
@@ -263,12 +274,12 @@ public class OnePlayerGame extends JFrame  {
 
 	private void sound() {
 		if(sound){
-			//clip[soundcycle].stop();
+			clip[soundcycle].stop();
 			soundcycle++;
 			if(soundcycle > 2)
 				soundcycle = 0;
 		} else
-			//clip[soundcycle].loop();	
+			clip[soundcycle].loop();	
 		sound = !sound;
 	}
     
@@ -301,6 +312,14 @@ public class OnePlayerGame extends JFrame  {
                     pause();
                 } else if (tmp == jetrisMusic) {
                 	sound();
+                } else if (tmp == jetrisGame) {
+                	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
+                		setVisible(false);
+                		clip[soundcycle].stop();
+                		mf.stopTimeThread();
+                		TwoPlayerGame mf = new TwoPlayerGame();
+                		dispose();
+                	}
                 } else if (tmp == jetrisHiScore) {
                     //showHiScore();
                 } else if (tmp == jetrisExit) {
