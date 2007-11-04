@@ -94,7 +94,7 @@ public class TwoPlayerGame extends JFrame  {
    		
     }    
     
-    public TwoPlayerGame() {
+    public TwoPlayerGame(int temp) {
         super(NAME);
    		initMenu();
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,10 +114,15 @@ public class TwoPlayerGame extends JFrame  {
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
    		setVisible(true);
    		this.setResizable(false);
-        clip[0] = Applet.newAudioClip(getClass().getResource("Tetrisa.mid"));
-        clip[1] = Applet.newAudioClip(getClass().getResource("Tetrisb.mid"));
-        clip[2] = Applet.newAudioClip(getClass().getResource("Tetrisc.mid"));             
-        clip[0].loop();
+
+        //clip[0] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisa.mid"));
+        //clip[1] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisb.mid"));
+        //clip[2] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisc.mid"));  	
+   			
+        //clip[0] = Applet.newAudioClip(getClass().getResource("Tetrisa.mid"));
+        //clip[1] = Applet.newAudioClip(getClass().getResource("Tetrisb.mid"));
+        //clip[2] = Applet.newAudioClip(getClass().getResource("Tetrisc.mid"));             
+        //clip[0].loop();
 		
         addWindowFocusListener(new WindowFocusListener(){
 
@@ -159,6 +164,10 @@ public class TwoPlayerGame extends JFrame  {
         addKeyListener(keyHandler);
 
     }
+    
+    //public TwoPlayerGame(int temp){ 
+    //	TwoPlayerGame();
+    //}
     
     public JPanel getButtonPanel() {
         JPanel r = new JPanel();
@@ -456,10 +465,10 @@ public class TwoPlayerGame extends JFrame  {
                 } else if (tmp == jetrisGame) {
                 	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
                 		setVisible(false);
-                		clip[soundcycle].stop();
+                		//clip[soundcycle].stop();
                 		//clip.dispose();
                 		mf.stopTimeThread();
-                		mf.dispose();
+                		//mf.dispose();
                 		mf2.stopTimeThread();
                 		OnePlayerGame mf = new OnePlayerGame();
                 		dispose();

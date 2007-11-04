@@ -181,7 +181,7 @@ public class Player extends JPanel  {
         this.player = player;
         this.got = got;
         font = new Font("Dialog", Font.PLAIN, 12);        
-        gameover = Applet.newAudioClip(getClass().getResource("Tetrisgo.mid"));
+        //gameover = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisgo.mid"));
         tg = new TetrisGrid(it);
         ff = new FigureFactory();
         nextBg = new Color(238,238,238);
@@ -525,7 +525,7 @@ public class Player extends JPanel  {
         paintNewPosition();
         
         if(isGameOver) {
-        	gameover.play();
+        	//gameover.play();
             int tmp = tg.updateHiScore();
             if(tmp >= 0) {
                 
