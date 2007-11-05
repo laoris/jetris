@@ -75,6 +75,7 @@ public class OnePlayerGame extends JFrame  {
         clip[1] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisc.mid"));
         clip[2] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisa.mid"));  	            
         clip[0].loop();
+	
         addWindowFocusListener(new WindowFocusListener(){
 
             public void windowGainedFocus(WindowEvent arg0) {}
