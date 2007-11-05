@@ -102,6 +102,7 @@ public class OnePlayerGame extends JFrame  {
             }
         };
         addKeyListener(keyHandler);
+        pause();
     }
 
     private void initMenu() {
@@ -270,7 +271,10 @@ public class OnePlayerGame extends JFrame  {
     }
 
     private void restart() {
-        mf.restart();
+    	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0 && JOptionPane.showConfirmDialog(frame,"Are you super duper sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
+        	mf.restart();
+        	mf.pause();
+    	}
     }
 
 	private void sound() {
