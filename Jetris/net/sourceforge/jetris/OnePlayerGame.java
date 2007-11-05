@@ -70,10 +70,11 @@ public class OnePlayerGame extends JFrame  {
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
    		setVisible(true);
    		this.setResizable(false);
-        //clip[0] = Applet.newAudioClip(getClass().getResource("Tetrisb.mid"));
-        //clip[1] = Applet.newAudioClip(getClass().getResource("Tetrisc.mid"));
-        //clip[2] = Applet.newAudioClip(getClass().getResource("Tetrisa.mid"));             
-        //clip[0].loop();
+
+        clip[0] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisb.mid"));
+        clip[1] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisc.mid"));
+        clip[2] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisa.mid"));  	            
+        clip[0].loop();
         addWindowFocusListener(new WindowFocusListener(){
 
             public void windowGainedFocus(WindowEvent arg0) {}
@@ -315,7 +316,7 @@ public class OnePlayerGame extends JFrame  {
                 } else if (tmp == jetrisGame) {
                 	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
                 		setVisible(false);
-                		//clip[soundcycle].stop();
+                		clip[soundcycle].stop();
                 		mf.stopTimeThread();
                 		TwoPlayerGame mf = new TwoPlayerGame(1);
                 		dispose();
