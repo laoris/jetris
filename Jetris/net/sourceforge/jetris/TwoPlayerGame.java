@@ -159,6 +159,7 @@ public class TwoPlayerGame extends JFrame  {
             }
         };
         addKeyListener(keyHandler);
+        pause();
 
     }
     
@@ -406,19 +407,17 @@ public class TwoPlayerGame extends JFrame  {
     }
     
     private synchronized void pause() {
-    	if(mf.isPaused() != mf2.isPaused()){
-    		mf.setPaused();
-    		mf2.setPaused();
-    	} else {
         	mf.pause();
         	mf2.pause();
-    	}
     }
 
     public void restart() {
-        mf.restart();
-        mf2.restart();
-        message = false;
+    	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0 && JOptionPane.showConfirmDialog(frame,"Are you super duper sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
+        	mf.restart();
+        	mf2.restart();
+        	message = false;
+        	pause();
+    	}
     }
 
 	private void sound() {
