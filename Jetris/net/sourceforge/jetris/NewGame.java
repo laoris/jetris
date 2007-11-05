@@ -1,10 +1,27 @@
 package net.sourceforge.jetris;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.io.*;
-import java.awt.event.*;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.Component;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.ActionListener;
+import java.applet.AudioClip;
+import java.applet.Applet;
+import res.ResClass;
 
 /*			/			/			/			/			/
 /	This is a GUI to implement the New Game menu option.						/
@@ -32,6 +49,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 	private final int LOSE = 0;
 	private final int SCORE = 1;
 	private final int LINES = 2;
+	AudioClip clip;
 	//public static boolean multi = false;
 	//Integer lines = new Integer(0);
 	//Integer score = new Integer(0);
@@ -146,19 +164,15 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		normal.addChangeListener(this);
 		OK.addMouseListener(this);
 		Cancel.addActionListener(this);
+
+        clip = Applet.newAudioClip(new ResClass().getClass().getResource("tetris_blast_ingame.mid"));  	            
+        clip.loop();
 		
 
 		//addComponentListener(this);		
 		
 	
 	}
-
-
-
-	/*public void focusLost(FocusEvent e)
-		{
-			requestFocus();
-		}*/
 
 
 	//This method contains the logic that drives which text field is editable
@@ -215,22 +229,10 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 	{
 		this.dispose();
 	}
-
-	//public void focusGained(FocusEvent e) { }
 	public void mouseEntered(MouseEvent e) { }
 	public void mousePressed(MouseEvent e) { }
 	public void mouseExited(MouseEvent e) { }
 	public void mouseReleased(MouseEvent e) { }
-
-	/*public static void main(String args[])
-	{
-		NewGame game = new NewGame();
-		game.setSize(400,245);  //was(300,200)
-		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		game.setVisible(true);
-		game.setResizable(false);
-	
-	}*/
 
 
 

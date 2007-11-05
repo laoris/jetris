@@ -527,7 +527,7 @@ public class Player extends JPanel  {
         if(isGameOver) {
         	gameover.play();
             int tmp = tg.updateHiScore();
-            if(tmp >= 0) {
+            if(tmp >= 0 && player == 0) {
                 
                 String  s;
                 
