@@ -200,6 +200,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 	{
 		try
 		{
+			clip.stop();
 			if (FTS.isSelected())
 			{
 				new TwoPlayerGame(SCORE);
