@@ -202,9 +202,14 @@ public class JetrisMainFrame extends JFrame  {
         addKeyListener(keyHandler);
         
         pH = new PublishHandler();
+       
+        GridThread gt = new GridThread();
+        tt = new TimeThread();
+        gt.start();
+        tt.start();
         
         font = new Font("Dialog", Font.PLAIN, 12);
-        tg = new TetrisGrid();
+        tg = new TetrisGrid(gt);
         ff = new FigureFactory();
         nextBg = new Color(238,238,238);
         
@@ -224,12 +229,7 @@ public class JetrisMainFrame extends JFrame  {
         
         fNext = ff.getRandomFigure();
         dropNext();
-        
-        GridThread gt = new GridThread();
-        tt = new TimeThread();
-        gt.start();
-        tt.start();
-
+       
         addWindowFocusListener(new WindowFocusListener(){
 
             public void windowGainedFocus(WindowEvent arg0) {}

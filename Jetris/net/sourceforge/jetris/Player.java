@@ -58,6 +58,8 @@ public class Player extends JPanel  {
     private int playerspeed = 0;
     private int difference = 0;
     private Thread got;
+    private JButton pauseBut; 
+    private boolean isOnePlayer;
     
     // used to access the overall game frame
     
@@ -193,6 +195,8 @@ public class Player extends JPanel  {
         	labelPanel.add(playerLabel, BorderLayout.CENTER);
         	all.add(labelPanel, BorderLayout.NORTH);
         }
+        else
+        	isOnePlayer = true;
         all.add(getStatPanel(), BorderLayout.WEST);
         all.add(getPlayPanel(), BorderLayout.CENTER);
         all.add(getMenuPanel(), BorderLayout.EAST);
@@ -398,7 +402,7 @@ public class Player extends JPanel  {
         jp = new JPanel();
         jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
         jp.add(Box.createRigidArea(ra));
-        JButton pauseBut = new JButton("Pause");
+        pauseBut = new JButton("Pause");
         pauseBut.setToolTipText("Press 'P'");
         pauseBut.setFocusable(false);
         pauseBut.addActionListener(new ActionListener() {
@@ -684,9 +688,16 @@ public class Player extends JPanel  {
 			paintTG();
 			paintNewPosition();
 		}
+		if (isPause)
+        	pauseBut.setText("Unpause");
+		else
+        	pauseBut.setText("Pause");
     }
 
     public void restart() {
+    	if (isOnePlayer && !isGameOver && (JOptionPane.showConfirmDialog(this, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+    		return;
+    	
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
                 tg.gLines.get(i)[j] = 0;
@@ -707,6 +718,7 @@ public class Player extends JPanel  {
         tg.resetStats();
         dropNext();
         nextMove();
+        pause();
     }
     
     private void updateStats() {

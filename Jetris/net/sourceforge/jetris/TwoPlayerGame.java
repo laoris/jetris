@@ -62,6 +62,7 @@ public class TwoPlayerGame extends JFrame  {
     	private GameOverThread got;
     	private boolean message;
     	private TwoPlayerGame frame;
+    	private JButton pauseBut;
 
     private class InteractionThread extends Thread {
    
@@ -202,7 +203,7 @@ public class TwoPlayerGame extends JFrame  {
         jp = new JPanel();
         jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
         jp.add(Box.createRigidArea(ra));
-        JButton pauseBut = new JButton("Pause");
+        pauseBut = new JButton("Pause");
         pauseBut.setToolTipText("Press 'P'");
         pauseBut.setFocusable(false);
         pauseBut.addActionListener(new ActionListener() {
@@ -409,17 +410,20 @@ public class TwoPlayerGame extends JFrame  {
         mf.pause();
         mf2.pause();
         if(!sound) return;
-        if(mf.isPaused()){
+        if(mf.isPaused()) {
+        	pauseBut.setText("Unpause");
 			clip[soundcycle].stop();
 			soundcycle++;
 			if(soundcycle > 2)
 				soundcycle = 0;
-		} else
+		} else {
+			pauseBut.setText("Pause");
 			clip[soundcycle].loop();
+		}
     }
 
     public void restart() {
-    	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0 && JOptionPane.showConfirmDialog(frame,"Are you super duper sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
+    	if (mf.isGameOver || mf2.isGameOver || JOptionPane.showConfirmDialog(frame, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         	mf.restart();
         	mf2.restart();
         	message = false;
