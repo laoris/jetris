@@ -688,10 +688,12 @@ public class Player extends JPanel  {
 			paintTG();
 			paintNewPosition();
 		}
-		if (isPause)
-        	pauseBut.setText("Unpause");
-		else
-        	pauseBut.setText("Pause");
+		if (pauseBut != null) {
+			if (isPause)
+				pauseBut.setText("Unpause");
+			else
+				pauseBut.setText("Pause");
+		}
     }
 
     public void restart() {
