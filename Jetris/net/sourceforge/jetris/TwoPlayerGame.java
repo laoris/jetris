@@ -119,7 +119,6 @@ public class TwoPlayerGame extends JFrame  {
         clip[0] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisa.mid"));
         clip[1] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisb.mid"));
         clip[2] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisc.mid"));  	            
-        clip[0].loop();
 		
         addWindowFocusListener(new WindowFocusListener(){
 
@@ -407,8 +406,16 @@ public class TwoPlayerGame extends JFrame  {
     }
     
     private synchronized void pause() {
-        	mf.pause();
-        	mf2.pause();
+        mf.pause();
+        mf2.pause();
+        if(!sound) return;
+        if(mf.isPaused()){
+			clip[soundcycle].stop();
+			soundcycle++;
+			if(soundcycle > 2)
+				soundcycle = 0;
+		} else
+			clip[soundcycle].loop();
     }
 
     public void restart() {
@@ -421,6 +428,7 @@ public class TwoPlayerGame extends JFrame  {
     }
 
 	private void sound() {
+		if(mf.isPaused()) return;
 		if(sound){
 			clip[soundcycle].stop();
 			soundcycle++;
@@ -429,6 +437,7 @@ public class TwoPlayerGame extends JFrame  {
 		} else
 			clip[soundcycle].loop();	
 		sound = !sound;
+		
 	}
     
     private JPanel getCopyrightPanel() {
