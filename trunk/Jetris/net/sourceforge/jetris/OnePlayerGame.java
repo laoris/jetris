@@ -71,10 +71,9 @@ public class OnePlayerGame extends JFrame  {
    		setVisible(true);
    		this.setResizable(false);
 
-        clip[0] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisb.mid"));
-        clip[1] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisc.mid"));
-        clip[2] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisa.mid"));  	            
-        clip[0].loop();
+        clip[0] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisa.mid"));
+        clip[1] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisb.mid"));
+        clip[2] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisc.mid"));
 	
         addWindowFocusListener(new WindowFocusListener(){
 
@@ -268,17 +267,28 @@ public class OnePlayerGame extends JFrame  {
     }
     
     private synchronized void pause() {
-       	mf.pause();
+        mf.pause();
+        if(!sound) return;
+        if(mf.isPaused()){
+			clip[soundcycle].stop();
+			soundcycle++;
+			if(soundcycle > 2)
+				soundcycle = 0;
+		} else {
+			clip[soundcycle].loop();
+		}		
     }
+
 
     private void restart() {
     	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0 && JOptionPane.showConfirmDialog(frame,"Are you super duper sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
         	mf.restart();
-        	mf.pause();
+        	pause();
     	}
     }
 
 	private void sound() {
+		if(mf.isPaused()) return;
 		if(sound){
 			clip[soundcycle].stop();
 			soundcycle++;
