@@ -281,7 +281,7 @@ public class OnePlayerGame extends JFrame  {
 
 
     private void restart() {
-    	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0 && JOptionPane.showConfirmDialog(frame,"Are you super duper sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
+    	if (mf.isGameOver || JOptionPane.showConfirmDialog(frame, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         	mf.restart();
         	pause();
     	}
