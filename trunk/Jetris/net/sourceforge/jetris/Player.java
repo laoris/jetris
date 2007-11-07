@@ -697,8 +697,8 @@ public class Player extends JPanel  {
     }
 
     public void restart() {
-    	if (isOnePlayer && !isGameOver && (JOptionPane.showConfirmDialog(this, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
-    		return;
+    	//if (isOnePlayer && !isGameOver && (JOptionPane.showConfirmDialog(this, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+    	//	return;
     	
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
@@ -720,7 +720,7 @@ public class Player extends JPanel  {
         tg.resetStats();
         dropNext();
         nextMove();
-        pause();
+        //pause();
     }
     
     private void updateStats() {
