@@ -349,13 +349,13 @@ public class OnePlayerGame extends JFrame  {
                 		dispose();
                 	}
                 } else if (tmp == jetrisHiScore) {
-                    //showHiScore();
+                    showHiScore();
                 } else if (tmp == jetrisExit) {
                     System.exit(0);
                 } else if (tmp == helpJetris) {
-                    //doHelp();
+                    doHelp();
                 } else if (tmp == helpAbout) {
-                    //doAbout();
+                    doAbout();
                 }
             } catch (Exception exc) {
                 exc.printStackTrace(System.out);
