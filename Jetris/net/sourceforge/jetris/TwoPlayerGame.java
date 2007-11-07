@@ -422,6 +422,7 @@ public class TwoPlayerGame extends JFrame  {
     }
     
     private synchronized void pause() {
+    	System.out.println("Hello");
         mf.pause();
         mf2.pause();
         if(!sound) return;
@@ -438,7 +439,7 @@ public class TwoPlayerGame extends JFrame  {
     }
 
     public void restart() {
-    	if (mf.isGameOver || mf2.isGameOver || JOptionPane.showConfirmDialog(frame, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    	if (/*mf.isGameOver || mf2.isGameOver || */JOptionPane.showConfirmDialog(frame, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         	mf.restart();
         	mf2.restart();
         	message = false;
@@ -487,7 +488,7 @@ public class TwoPlayerGame extends JFrame  {
                 } else if (tmp == jetrisPause) {
                     pause();
                 } else if (tmp == jetrisGame) {
-                	if(JOptionPane.showConfirmDialog(frame,"Are you sure?", "Uhh", JOptionPane.YES_NO_OPTION) == 0){
+                	if(JOptionPane.showConfirmDialog(frame,"Are you sure you wish to switch to a One Player game?", "One Player", JOptionPane.YES_NO_OPTION) == 0){
                 		setVisible(false);
                 		clip[soundcycle].stop();
                 		mf.stopTimeThread();
