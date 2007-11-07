@@ -45,6 +45,7 @@ public class OnePlayerGame extends JFrame  {
     	private JMenuItem jetrisMusic;
     	private JMenuItem jetrisHiScore;
     	private JMenuItem jetrisExit;
+    	private JMenuItem jetrisKeyConfig;
     	private JMenuItem helpAbout;
     	private JMenuItem helpJetris;	
  		private JPanel about;
@@ -55,6 +56,11 @@ public class OnePlayerGame extends JFrame  {
     	private boolean sound = true;
     	private Thread thread;
     	private OnePlayerGame frame;
+    	private Integer up = new Integer(KeyEvent.VK_UP);
+    	private Integer down = new Integer(KeyEvent.VK_DOWN);
+    	private Integer left = new Integer(KeyEvent.VK_LEFT);
+    	private Integer right = new Integer(KeyEvent.VK_RIGHT);
+    	
     
     public OnePlayerGame() {
         super(NAME);
@@ -88,13 +94,13 @@ public class OnePlayerGame extends JFrame  {
 
             public void keyPressed(KeyEvent e) {
                 int code = e.getKeyCode();
-                if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+                if(code == left.intValue()) {
                     mf.moveLeft();
-                } else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+                } else if(code == right.intValue()) {
                     mf.moveRight();
-                } else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+                } else if(code == down.intValue()) {
                     mf.moveDown();
-                } else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+                } else if(code == up.intValue()) {
                     mf.rotation();
                 } else if(code == KeyEvent.VK_SPACE) {
                     mf.moveDrop();
@@ -122,6 +128,12 @@ public class OnePlayerGame extends JFrame  {
             setKeyAcceleratorMenu(jetrisGame, 'G',0);
             jetrisGame.addActionListener(mH);
             jetrisGame.setMnemonic('G');
+            
+            jetrisKeyConfig = new JMenuItem("Key Config");
+            mJetris.add(jetrisKeyConfig);
+            setKeyAcceleratorMenu(jetrisKeyConfig, 'K', 0);
+            jetrisKeyConfig.addActionListener(mH);
+            jetrisKeyConfig.setMnemonic('K');
             
             jetrisRestart = new JMenuItem("Restart");
             mJetris.add(jetrisRestart);
