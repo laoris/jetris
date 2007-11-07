@@ -41,6 +41,7 @@ public class TwoPlayerGame extends JFrame  {
     	private Font font;
     	private HelpDialog helpDialog;
     	private JMenuItem jetrisRestart;
+    	private JMenuItem jetrisKeyConfig;
     	private JMenuItem jetrisPause;
     	private JMenuItem jetrisGame;
     	private JMenuItem jetrisMusic;
@@ -63,6 +64,14 @@ public class TwoPlayerGame extends JFrame  {
     	private boolean message;
     	private TwoPlayerGame frame;
     	private JButton pauseBut;
+    	private Integer oneUp = new Integer(KeyEvent.VK_W);
+    	private Integer oneDown = new Integer(KeyEvent.VK_S);
+    	private Integer oneLeft = new Integer(KeyEvent.VK_A);
+    	private Integer oneRight = new Integer(KeyEvent.VK_D);
+    	private Integer twoUp = new Integer(KeyEvent.VK_UP);
+    	private Integer twoDown = new Integer(KeyEvent.VK_DOWN);
+    	private Integer twoLeft = new Integer(KeyEvent.VK_LEFT);
+    	private Integer twoRight = new Integer(KeyEvent.VK_RIGHT);
 
     private class InteractionThread extends Thread {
    
@@ -135,23 +144,23 @@ public class TwoPlayerGame extends JFrame  {
 
             public void keyPressed(KeyEvent e) {
                 int code = e.getKeyCode();
-                if(code == KeyEvent.VK_LEFT) {
+                if(code == twoLeft.intValue()) {
                     mf2.moveLeft();
-                } else if(code == KeyEvent.VK_RIGHT) {
+                } else if(code == twoRight.intValue()) {
                     mf2.moveRight();
-                } else if(code == KeyEvent.VK_DOWN) {
+                } else if(code == twoDown.intValue()) {
                     mf2.moveDown();
-                } else if(code == KeyEvent.VK_UP) {
+                } else if(code == twoUp.intValue()) {
                     mf2.rotation();
                 } else if(code == KeyEvent.VK_SPACE) {
                     mf2.moveDrop();
-                } else if(code == KeyEvent.VK_A) {
+                } else if(code == oneLeft.intValue()) {
                     mf.moveLeft();
-                } else if(code == KeyEvent.VK_D) {
+                } else if(code == oneRight.intValue()) {
                     mf.moveRight();
-                } else if(code == KeyEvent.VK_S) {
+                } else if(code == oneDown.intValue()) {
                     mf.moveDown();
-                } else if(code == KeyEvent.VK_W) {
+                } else if(code == oneUp.intValue()) {
                     mf.rotation();
                 } else if(code == KeyEvent.VK_Q) {
                     mf.moveDrop();
@@ -238,6 +247,12 @@ public class TwoPlayerGame extends JFrame  {
             jetrisGame.addActionListener(mH);
             jetrisGame.setMnemonic('G');
 
+            jetrisKeyConfig = new JMenuItem("Key Config");
+            mJetris.add(jetrisKeyConfig);
+            setKeyAcceleratorMenu(jetrisKeyConfig, 'K', 0);
+            jetrisKeyConfig.addActionListener(mH);
+            jetrisKeyConfig.setMnemonic('K');
+            
             jetrisRestart = new JMenuItem("Restart");
             mJetris.add(jetrisRestart);
             setKeyAcceleratorMenu(jetrisRestart, 'R',0);
