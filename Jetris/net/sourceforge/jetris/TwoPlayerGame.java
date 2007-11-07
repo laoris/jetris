@@ -51,7 +51,7 @@ public class TwoPlayerGame extends JFrame  {
     	private JMenuItem helpJetris;
     	private JMenuItem jetrisGM1;
     	private JMenuItem jetrisGM2;
-    	private JMenuItem jetrisGM3;	
+    	private JMenuItem jetrisGM3;
  		private JPanel about;
  		private JPanel hiScorePanel;
     	private final Player mf;
@@ -186,6 +186,7 @@ public class TwoPlayerGame extends JFrame  {
         JPanel jp = new JPanel();
 
         //BUTTONS
+	
         r.add(Box.createRigidArea(new Dimension(0, 10)));
         
         jp = new JPanel();
@@ -499,13 +500,13 @@ public class TwoPlayerGame extends JFrame  {
                 } else if (tmp == jetrisMusic) {
                 	sound();               	
                 } else if (tmp == jetrisHiScore) {
-                    //showHiScore();
+                    showHiScore();
                 } else if (tmp == jetrisExit) {
                     System.exit(0);
                 } else if (tmp == helpJetris) {
-                    //doHelp();
+                    doHelp();
                 } else if (tmp == helpAbout) {
-                    //doAbout();
+                    doAbout();
                 }
             } catch (Exception exc) {
                 exc.printStackTrace(System.out);
