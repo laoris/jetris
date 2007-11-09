@@ -63,7 +63,6 @@ public class TwoPlayerGame extends JFrame  {
     	private InteractionThread it;
     	private GameOverThread got;
     	private boolean message;
-    	private TwoPlayerGame frame;
     	private JButton pauseBut;
     	private Integer oneUp = new Integer(KeyEvent.VK_W);
     	private Integer oneDown = new Integer(KeyEvent.VK_S);
@@ -92,13 +91,13 @@ public class TwoPlayerGame extends JFrame  {
         			mf2.isGameOver = mf.isGameOver;
         			if(!message){
         				message = true;
-        				JOptionPane.showMessageDialog(frame,"                          Player 2 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
+        				JOptionPane.showMessageDialog(null,"                          Player 2 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
         			}
         		} else if(mf2.getGameOver()){
         			mf.isGameOver = mf2.isGameOver;
         			if(!message){
         				message = true;
-        				JOptionPane.showMessageDialog(frame,"                          Player 1 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
+        				JOptionPane.showMessageDialog(null,"                          Player 1 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
         			}
         		}
    		}
@@ -111,7 +110,6 @@ public class TwoPlayerGame extends JFrame  {
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    		it = new InteractionThread();
    		got = new GameOverThread();
-   		frame = this;
         mf = new Player(1,it, got);
         mf2 = new Player(2,it, got);
 
@@ -149,8 +147,8 @@ public class TwoPlayerGame extends JFrame  {
                     mf2.moveLeft();
                 } else if(code == twoRight.intValue()) {
                     mf2.moveRight();
-                } else if(code == twoDown.intValue()) {
-                    mf2.moveDown();
+                //} else if(code == twoDown.intValue()) {
+                //    mf2.moveDown();
                 } else if(code == twoUp.intValue()) {
                     mf2.rotation();
                 } else if(code == KeyEvent.VK_SPACE) {
@@ -159,12 +157,20 @@ public class TwoPlayerGame extends JFrame  {
                     mf.moveLeft();
                 } else if(code == oneRight.intValue()) {
                     mf.moveRight();
-                } else if(code == oneDown.intValue()) {
-                    mf.moveDown();
+                //} else if(code == oneDown.intValue()) {
+                //    mf.moveDown();
                 } else if(code == oneUp.intValue()) {
                     mf.rotation();
                 } else if(code == KeyEvent.VK_Q) {
                     mf.moveDrop();
+                }
+            }
+            public void keyReleased(KeyEvent e) {
+                int code = e.getKeyCode();
+                if(code == twoDown.intValue()) {
+                    mf2.moveDown();
+                } else if(code == oneDown.intValue()) {
+                    mf.moveDown();
                 }
             }
         };
@@ -469,23 +475,25 @@ public class TwoPlayerGame extends JFrame  {
     }
     
     private synchronized void pause() {
-        mf.pause();
         mf2.pause();
+        mf.pause();
+        if(mf.isPaused())
+        	pauseBut.setText("Unpause");
+        else
+        	pauseBut.setText("Pause");
         if(!sound) return;
         if(mf.isPaused()) {
-        	pauseBut.setText("Unpause");
 			clip[soundcycle].stop();
 			soundcycle++;
 			if(soundcycle > 2)
 				soundcycle = 0;
 		} else {
-			pauseBut.setText("Pause");
 			clip[soundcycle].loop();
 		}
     }
 
     public void restart() {
-    	if (/*mf.isGameOver || mf2.isGameOver || */JOptionPane.showConfirmDialog(frame, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    	if (/*mf.isGameOver || mf2.isGameOver || */JOptionPane.showConfirmDialog(null, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         	mf.restart();
         	mf2.restart();
         	message = false;
@@ -534,7 +542,7 @@ public class TwoPlayerGame extends JFrame  {
                 } else if (tmp == jetrisPause) {
                     pause();
                 } else if (tmp == jetrisGame) {
-                	if(JOptionPane.showConfirmDialog(frame,"Are you sure you wish to switch to a One Player game?", "One Player", JOptionPane.YES_NO_OPTION) == 0){
+                	if(JOptionPane.showConfirmDialog(null,"Are you sure you wish to switch to a One Player game?", "One Player", JOptionPane.YES_NO_OPTION) == 0){
                 		setVisible(false);
                 		clip[soundcycle].stop();
                 		mf.stopTimeThread();
