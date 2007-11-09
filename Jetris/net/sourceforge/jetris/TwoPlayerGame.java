@@ -8,6 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.KeyStroke;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
@@ -186,8 +187,25 @@ public class TwoPlayerGame extends JFrame  {
         JPanel jp = new JPanel();
 
         //BUTTONS
-	
-        r.add(Box.createRigidArea(new Dimension(0, 10)));
+
+
+		//JetrisIcon
+
+		r.add(Box.createRigidArea(new Dimension(0, 41)));
+		
+		jp = new JPanel();
+        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+        jp.add(Box.createRigidArea(new Dimension(21, 0)));
+        JLabel label = new JLabel();
+        Icon icon = new ImageIcon(loadImage("jetris.png"));
+        label.setIcon(icon);
+        jp.add(label);
+        jp.add(Box.createHorizontalGlue());
+        r.add(jp);
+        
+        r.add(Box.createRigidArea(new Dimension(0, 358)));
+        
+        //Restart Button
         
         jp = new JPanel();
         jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
@@ -210,6 +228,9 @@ public class TwoPlayerGame extends JFrame  {
         
         r.add(Box.createRigidArea(new Dimension(0, 5)));
         
+        
+        
+        //Pause Button
         jp = new JPanel();
         jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
         jp.add(Box.createRigidArea(ra));
@@ -227,6 +248,31 @@ public class TwoPlayerGame extends JFrame  {
         jp.add(pauseBut);
         jp.add(Box.createHorizontalGlue());
         r.add(jp);
+        
+        
+        
+        
+
+        /*
+        r.add(Box.createRigidArea(new Dimension(0, 5)));   
+        
+        
+        //PlayerInteraction
+        jp = new JPanel();
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+        //jp.add(Box.createRigidArea(new Dimension(1, 0)));
+        JLabel linelabel = new JLabel("Player 1 lines");
+        JLabel lines = new JLabel("0");
+        JLabel linelabel2 = new JLabel("Player 2 lines");
+        JLabel lines2 = new JLabel("0");        
+        
+        jp.add(linelabel);
+        jp.add(lines);
+        jp.add(linelabel2);
+        jp.add(lines2);
+
+        jp.add(Box.createHorizontalGlue());
+        r.add(jp);*/
         return r;
     }
 
@@ -423,7 +469,6 @@ public class TwoPlayerGame extends JFrame  {
     }
     
     private synchronized void pause() {
-    	System.out.println("Hello");
         mf.pause();
         mf2.pause();
         if(!sound) return;
