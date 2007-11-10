@@ -21,8 +21,8 @@ public class TetrisGrid implements Serializable{
     public int level;
     private int opponentspeed = 0;
     HiScore[] hiScore;
-    private int attack = 0;
-    private int attacked = 0;
+    public int attack = 0;
+    public int attacked = 0;
     private Thread it;
     
     TetrisGrid(Thread it) {
@@ -55,19 +55,21 @@ public class TetrisGrid implements Serializable{
     boolean addFigure(Figure f) {
         for (int j = 0; j < f.arrX.length; j++) {
             if(f.arrY[j]+f.offsetY >= 20) {
+
                 f.setOffset(f.offsetXLast,f.offsetYLast);
-                addFiguretoGrid(f);
+                                 addFiguretoGrid(f);
                 eliminateLines();
                 it.run();
-                addLines();
+
                 return true;
             }
             if(gLines.get(f.arrY[j]+f.offsetY)[f.arrX[j]+f.offsetX] != 0) {
+
                 f.setOffset(f.offsetXLast,f.offsetYLast);
-                addFiguretoGrid(f);
+                                addFiguretoGrid(f);
                 eliminateLines();
-                it.run();
-                addLines();
+                it.run();  
+
                 return true;
             }
         }
@@ -107,6 +109,9 @@ public class TetrisGrid implements Serializable{
                 lines++;
             }
         }
+        
+        System.out.println("lines = " + lines);
+        
         switch (lines) {
         case 1: score +=  100 +  5*level; break;
         case 2: score +=  400 + 20*level; break;
@@ -122,8 +127,13 @@ public class TetrisGrid implements Serializable{
         if (lines > 0) {
             dropLines[lines-1]++;
             opponentspeed += lines;
-            if(lines > 1)
-            	attack = lines-1;
+            if(lines == 3){
+                attack = 1;
+                System.out.println("attack is set to " + attack);}
+            else if (lines == 4){
+                // code for special block here
+                System.out.println("the program will insert a special block");
+            }
         }
 
         for (int i = 0; i < lines; i++) {
@@ -133,7 +143,8 @@ public class TetrisGrid implements Serializable{
     
     public void addLines() {
 			
-		while(attacked > 0) {
+		System.out.println("Add lines method is called, attacked = " + attacked);
+                while(attacked > 0) {
 			        	
 			Random r = new Random();
 			int[] el = new int[10];
@@ -218,8 +229,10 @@ public class TetrisGrid implements Serializable{
     }
     
     public int attackPlayer() {
-    	int tmp = attack;
+
+        int tmp = attack;
     	attack = 0;
+           System.out.println("attack player method is called, " + tmp + " is returned.");
     	return tmp;
     }
     
@@ -228,7 +241,9 @@ public class TetrisGrid implements Serializable{
     }
 
     public void playerAttacked(int lines) {
-    	attacked += lines;
+
+        attacked += lines;
+     	System.out.println("playerAttacked is called, attacked = " + attacked);
     }
     
     public int getOpponentSpeed(){
