@@ -71,15 +71,49 @@ public class TwoPlayerGame extends JFrame  {
 		private int[] twoPlayerKeys = new int[] {KeyEvent.VK_UP, KeyEvent.VK_LEFT,
 												KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_SPACE};
 		private KeyConfig KC;
+                
+        // game mode constants
+        private final int FTL = 0;
+	private final int FTS = 1;
+	private final int FXL = 2;
+        
+        // stores current game mode
+        private int gameMode;
 
-    private class InteractionThread extends Thread {
+    public class InteractionThread extends Thread {
    
         public void run() {
         	
-        	mf.setPlayerSpeed(mf2.tg.getOpponentSpeed());
-        	mf2.setPlayerSpeed(mf.tg.getOpponentSpeed());
-        	mf.tg.playerAttacked(mf2.tg.attackPlayer());
-        	mf2.tg.playerAttacked(mf.tg.attackPlayer());
+                if (gameMode == FTL || gameMode == FXL)
+                {
+                    System.out.println("thread runs");
+
+                    mf.setPlayerSpeed(mf2.tg.getOpponentSpeed());
+                    mf2.setPlayerSpeed(mf.tg.getOpponentSpeed());
+
+                    // this keeps the attacked value in the tetris grid updated
+                    mf.tg.playerAttacked(mf2.tg.attackPlayer());
+                    mf2.tg.playerAttacked(mf.tg.attackPlayer());
+
+                    // this uses the attacked value to add the appropriate lines to the other player's grid
+                    if (mf.tg.attacked > 0) {
+                        mf.playerLabel.setText("Player 1 - ATTACKED!");
+                    }
+                    else{
+                        mf.playerLabel.setText("Player 1");
+                    }
+                    
+                    mf.tg.addLines();
+                    
+                    if (mf2.tg.attacked > 0){
+                        mf2.playerLabel.setText("Player 2 - ATTACKED!");
+                    }
+                    else{
+                        mf2.playerLabel.setText("Player 2");
+                    }
+                    
+                    mf2.tg.addLines();
+                }
         }
     }
     
@@ -103,16 +137,18 @@ public class TwoPlayerGame extends JFrame  {
    		
     }    
     
-    public TwoPlayerGame(int temp) {
+    public TwoPlayerGame(int mode) {
         super(NAME);
    		initMenu();
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    		it = new InteractionThread();
    		got = new GameOverThread();
+
         mf = new Player(1,it, got);
         mf2 = new Player(2,it, got);
 
-
+        gameMode = mode;
+        
         this.getContentPane().add(mf, BorderLayout.WEST);
         this.getContentPane().add(mf2, BorderLayout.EAST);
         this.getContentPane().add(getButtonPanel(), BorderLayout.CENTER);
@@ -122,6 +158,7 @@ public class TwoPlayerGame extends JFrame  {
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
    		setVisible(true);
    		this.setResizable(false);
+                            
 
 
         clip[0] = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisa.mid"));

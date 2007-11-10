@@ -8,6 +8,7 @@ public class JetrisMain {
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.setVisible(true);
 		game.setResizable(false);
+                
         
     }
 

@@ -39,6 +39,7 @@ public class Player extends JPanel  {
     private JLabel[] statsL;
     private JLabel levelLabel;
     private JLabel hiScoreLabel;
+    public JLabel playerLabel;
     private JPanel[][] cells;
     private JPanel[][] next;
     private int nextX;
@@ -190,7 +191,7 @@ public class Player extends JPanel  {
         JPanel all = new JPanel(new BorderLayout());
         if(player != 0){
         	JPanel labelPanel = new JPanel();
-        	JLabel playerLabel = new JLabel("Player " + player);
+        	playerLabel = new JLabel("Player " + player);
         	playerLabel.setFont(new Font("SansSerif",Font.BOLD,20));
         	labelPanel.add(playerLabel, BorderLayout.CENTER);
         	all.add(labelPanel, BorderLayout.NORTH);
