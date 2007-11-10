@@ -57,8 +57,8 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 	
 	//These arrays will store the desired key configuration
 	private int keyArraySize = 5; // there are 5 controls, up, left, right, down, drop
-	private int[] onePlayerKeys = new int[keyArraySize]; //[0] gets up [1] gets left [2] gets right [3] gets down
-	private int[] twoPlayerKeys = new int[keyArraySize];
+	private int[] onePlayerKeys;// = new int[keyArraySize]; //[0] gets up [1] gets left [2] gets right [3] gets down
+	private int[] twoPlayerKeys;// = new int[keyArraySize];
 	private int[] tempOnePlayerKeys = new int[keyArraySize]; //holds the Keys temporarily until ok is hit, then it commits
 	private int[] tempTwoPlayerKeys = new int[keyArraySize]; 
 	private boolean noRepeatKeys = true;
@@ -67,13 +67,25 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 	{
 		super( "Key Configuration");
 		playNum = playerNumber;
+		onePlayerKeys = onePKeys;
 		
 		setOnePlayerKeys(onePKeys);
-		tempOnePlayerKeys = onePlayerKeys;
+		//copy values from onePlayerKeys to tempOnePlayerKeys
+		for(int i =0; i< keyArraySize; i++)
+		{
+			tempOnePlayerKeys[i] = onePlayerKeys[i];
+		}
+
 		if(playNum ==2)
 		{
+
+			twoPlayerKeys = twoPKeys;
 			setTwoPlayerKeys(twoPKeys);
-			tempTwoPlayerKeys = twoPlayerKeys;
+			for(int i =0; i< keyArraySize; i++)
+			{
+				tempTwoPlayerKeys[i] = twoPlayerKeys[i];
+			}
+
 		}
 		
 		JPanel masterPanel = new JPanel( new GridLayout(5, 4)); //contains the textfields and labels
@@ -313,7 +325,11 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 					{
 						System.out.println("there are no repeat keys");
 						errorLabel.setText("");
-						onePlayerKeys = tempOnePlayerKeys; //no repeats, change the keys
+						//no repeats, change the keys
+						for (int i=0; i< keyArraySize; i++)
+						{
+							onePlayerKeys[i] = tempOnePlayerKeys[i];
+						}										
 
 						this.hide();
 						
@@ -360,8 +376,14 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 					{
 						System.out.println("there are no repeat keys");
 						errorLabel.setText("");
-						onePlayerKeys = tempOnePlayerKeys; //no repeats, change the keys
-						twoPlayerKeys = tempTwoPlayerKeys;
+						//onePlayerKeys = tempOnePlayerKeys; //no repeats, change the keys
+						for (int i=0; i< keyArraySize; i++)
+						{
+							onePlayerKeys[i] = tempOnePlayerKeys[i];
+							twoPlayerKeys[i] = tempTwoPlayerKeys[i];
+						}										
+
+						//twoPlayerKeys = tempTwoPlayerKeys;
 						this.hide(); //or hide?
 						
 					}
