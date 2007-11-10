@@ -23,6 +23,6 @@ javac "net\sourceforge\jetris\NewGame.java"
 javac "net\sourceforge\jetris\OnePlayerGame.java" 
 javac "net\sourceforge\jetris\TwoPlayerGame.java"
 javac "net\sourceforge\jetris\Player.java"
-javac "net\sourceforge\jetris\PlayerOptions.java"
+javac "net\sourceforge\jetris\PlayerOption.java"
 
 @PAUSE
