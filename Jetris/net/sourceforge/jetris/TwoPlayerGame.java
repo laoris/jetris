@@ -64,14 +64,13 @@ public class TwoPlayerGame extends JFrame  {
     	private GameOverThread got;
     	private boolean message;
     	private JButton pauseBut;
-    	private Integer oneUp = new Integer(KeyEvent.VK_W);
-    	private Integer oneDown = new Integer(KeyEvent.VK_S);
-    	private Integer oneLeft = new Integer(KeyEvent.VK_A);
-    	private Integer oneRight = new Integer(KeyEvent.VK_D);
-    	private Integer twoUp = new Integer(KeyEvent.VK_UP);
-    	private Integer twoDown = new Integer(KeyEvent.VK_DOWN);
-    	private Integer twoLeft = new Integer(KeyEvent.VK_LEFT);
-    	private Integer twoRight = new Integer(KeyEvent.VK_RIGHT);
+		//keys are stored in the order UP, LEFT, RIGHT, DOWN, DROP for 0, 1, 2, 3, 4 in the array
+		private int[] onePlayerKeys = new int[] {KeyEvent.VK_W, KeyEvent.VK_A,
+												KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_Q};
+		
+		private int[] twoPlayerKeys = new int[] {KeyEvent.VK_UP, KeyEvent.VK_LEFT,
+												KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_SPACE};
+		private KeyConfig KC;
 
     private class InteractionThread extends Thread {
    
@@ -140,36 +139,37 @@ public class TwoPlayerGame extends JFrame  {
         });
 
         keyHandler = new KeyAdapter(){
-
+			//keys in arrays are stored in the order UP LEFT RIGHT DOWN DROP
+									//0	1	2	 3	    4
             public void keyPressed(KeyEvent e) {
                 int code = e.getKeyCode();
-                if(code == twoLeft.intValue()) {
+                if(code == twoPlayerKeys[1]) {
                     mf2.moveLeft();
-                } else if(code == twoRight.intValue()) {
+                } else if(code == twoPlayerKeys[2]) {
                     mf2.moveRight();
                 //} else if(code == twoDown.intValue()) {
                 //    mf2.moveDown();
-                } else if(code == twoUp.intValue()) {
+                } else if(code == twoPlayerKeys[0]) {
                     mf2.rotation();
-                } else if(code == KeyEvent.VK_SPACE) {
+                } else if(code == twoPlayerKeys[4]) {
                     mf2.moveDrop();
-                } else if(code == oneLeft.intValue()) {
+                } else if(code == onePlayerKeys[1]) {
                     mf.moveLeft();
-                } else if(code == oneRight.intValue()) {
+                } else if(code == onePlayerKeys[2]) {
                     mf.moveRight();
                 //} else if(code == oneDown.intValue()) {
                 //    mf.moveDown();
-                } else if(code == oneUp.intValue()) {
+                } else if(code == onePlayerKeys[0]) {
                     mf.rotation();
-                } else if(code == KeyEvent.VK_Q) {
+                } else if(code == onePlayerKeys[4]) {
                     mf.moveDrop();
                 }
             }
             public void keyReleased(KeyEvent e) {
                 int code = e.getKeyCode();
-                if(code == twoDown.intValue()) {
+                if(code == twoPlayerKeys[3]) {
                     mf2.moveDown();
-                } else if(code == oneDown.intValue()) {
+                } else if(code == onePlayerKeys[3]) {
                     mf.moveDown();
                 }
             }
@@ -560,7 +560,8 @@ public class TwoPlayerGame extends JFrame  {
                     doHelp();
                 } else if (tmp == helpAbout) {
                     doAbout();
-                }
+                } else if(tmp == jetrisKeyConfig)
+					KC= new KeyConfig(2, onePlayerKeys, twoPlayerKeys); //paramaters are number of players, int array 1, int array 2
             } catch (Exception exc) {
                 exc.printStackTrace(System.out);
             }
