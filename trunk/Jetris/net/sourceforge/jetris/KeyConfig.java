@@ -178,46 +178,55 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 				{
 					oneUpField.setText(text);
 					tempOnePlayerKeys[0] = code;
+					oneLeftField.requestFocusInWindow();
 				}
 				else if(oneLeftField.isFocusOwner())
 				{
 					oneLeftField.setText(text);
 					tempOnePlayerKeys[1] = code;
+					oneRightField.requestFocusInWindow();
 				}
 				else if(oneRightField.isFocusOwner())
 				{
 					oneRightField.setText(text);
 					tempOnePlayerKeys[2] = code;
+					oneDownField.requestFocusInWindow();
 				}
 				else if(oneDownField.isFocusOwner())
 				{
 					oneDownField.setText(text);
 					tempOnePlayerKeys[3] = code;
+					oneDropField.requestFocusInWindow();
 				}
 				else if(oneDropField.isFocusOwner())
 				{
 					oneDropField.setText(text);
 					tempOnePlayerKeys[4] = code;
+					twoUpField.requestFocusInWindow();
 				}
 				else if(twoUpField.isFocusOwner())
 				{
 					twoUpField.setText(text);
 					tempTwoPlayerKeys[0] = code;
+					twoLeftField.requestFocusInWindow();
 				}
 				else if(twoLeftField.isFocusOwner())
 				{
 					twoLeftField.setText(text);
 					tempTwoPlayerKeys[1] = code;
+					twoRightField.requestFocusInWindow();
 				}
 				else if(twoRightField.isFocusOwner())
 				{
 					twoRightField.setText(text);
 					tempTwoPlayerKeys[2] = code;
+					twoDownField.requestFocusInWindow();
 				}
 				else if(twoDownField.isFocusOwner())
 				{
 					twoDownField.setText(text);
 					tempTwoPlayerKeys[3] = code;
+					twoDropField.requestFocusInWindow();
 				}
 				else if(twoDropField.isFocusOwner())
 				{
