@@ -56,10 +56,10 @@ public class OnePlayerGame extends JFrame  {
     	private boolean sound = true;
     	private Thread thread;
     	private OnePlayerGame frame;
-    	private Integer up = new Integer(KeyEvent.VK_UP);
-    	private Integer down = new Integer(KeyEvent.VK_DOWN);
-    	private Integer left = new Integer(KeyEvent.VK_LEFT);
-    	private Integer right = new Integer(KeyEvent.VK_RIGHT);
+		//stores the key configuration
+		private int[] onePlayerKeys = new int[] {KeyEvent.VK_UP, KeyEvent.VK_LEFT,
+												KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_SPACE};
+		private KeyConfig KC;
     	
     
     public OnePlayerGame() {
@@ -91,18 +91,18 @@ public class OnePlayerGame extends JFrame  {
         });
 
         keyHandler = new KeyAdapter(){
-
+			//array stores the keys in the order UP LEFT RIGHT DOWN DROP
             public void keyPressed(KeyEvent e) {
                 int code = e.getKeyCode();
-                if(code == left.intValue()) {
+                if(code == onePlayerKeys[1]) {
                     mf.moveLeft();
-                } else if(code == right.intValue()) {
+                } else if(code == onePlayerKeys[2]) {
                     mf.moveRight();
-                } else if(code == down.intValue()) {
+                } else if(code == onePlayerKeys[3]) {
                     mf.moveDown();
-                } else if(code == up.intValue()) {
+                } else if(code == onePlayerKeys[0]) {
                     mf.rotation();
-                } else if(code == KeyEvent.VK_SPACE) {
+                } else if(code == onePlayerKeys[4]) {
                     mf.moveDrop();
                 } 
             }
@@ -348,14 +348,16 @@ public class OnePlayerGame extends JFrame  {
                 		TwoPlayerGame mf = new TwoPlayerGame(1);
                 		dispose();
                 	}
-                } else if (tmp == jetrisHiScore) {
-                    showHiScore();
+                } else if (tmp == jetrisKeyConfig){
+					KC = new KeyConfig(1,onePlayerKeys, null);  //paramaters are number of players, player keys1, player keys2
+				}else if (tmp == jetrisHiScore) {
+                    //showHiScore();
                 } else if (tmp == jetrisExit) {
                     System.exit(0);
                 } else if (tmp == helpJetris) {
-                    doHelp();
+                    //doHelp();
                 } else if (tmp == helpAbout) {
-                    doAbout();
+                    //doAbout();
                 }
             } catch (Exception exc) {
                 exc.printStackTrace(System.out);
