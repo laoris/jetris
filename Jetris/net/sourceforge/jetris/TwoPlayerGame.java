@@ -16,6 +16,8 @@ import javax.swing.Box;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.border.EtchedBorder;
+//import javax.swing.text.html.HTMLDocument.Iterator;
+import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -35,6 +37,13 @@ import java.io.BufferedInputStream;
 import java.applet.AudioClip;
 import java.applet.Applet;
 import res.ResClass;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.Iterator;
+
 
 public class TwoPlayerGame extends JFrame  {
      	private static final String NAME = "JETRIS 1.1";
@@ -71,6 +80,9 @@ public class TwoPlayerGame extends JFrame  {
 		private int[] twoPlayerKeys = new int[] {KeyEvent.VK_UP, KeyEvent.VK_LEFT,
 												KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_SPACE};
 		private KeyConfig KC;
+		private Timer keyTimer;
+		private Map pressedKeys = Collections.synchronizedMap(new HashMap());
+
                 
         // game mode constants
         private final int FTL = 0;
@@ -175,51 +187,79 @@ public class TwoPlayerGame extends JFrame  {
             }
         });
 
+        // Would use Enums, but not allowed to instantiate them in a local context
+        final Object newKey = new Object();
+        final Object lagKey = new Object();
+        final Object lagKeyAgain = new Object();
+        final Object freeKey = new Object();
+        
         keyHandler = new KeyAdapter(){
-			//keys in arrays are stored in the order UP LEFT RIGHT DOWN DROP
-									//0	1	2	 3	    4
             public void keyPressed(KeyEvent e) {
                 int code = e.getKeyCode();
-                if(code == twoPlayerKeys[1]) {
-                    mf2.moveLeft();
-                } else if(code == twoPlayerKeys[2]) {
-                    mf2.moveRight();
-                //} else if(code == twoDown.intValue()) {
-                //    mf2.moveDown();
-                } else if(code == twoPlayerKeys[0]) {
-                    mf2.rotation();
-                } else if(code == twoPlayerKeys[4]) {
+                if (code == twoPlayerKeys[4])
                     mf2.moveDrop();
-                } else if(code == onePlayerKeys[1]) {
-                    mf.moveLeft();
-                } else if(code == onePlayerKeys[2]) {
-                    mf.moveRight();
-                //} else if(code == oneDown.intValue()) {
-                //    mf.moveDown();
-                } else if(code == onePlayerKeys[0]) {
-                    mf.rotation();
-                } else if(code == onePlayerKeys[4]) {
+                else if (code == onePlayerKeys[4])
                     mf.moveDrop();
-                }
+                else
+                	pressedKeys.put(new Integer(code), newKey);
             }
             public void keyReleased(KeyEvent e) {
                 int code = e.getKeyCode();
-                if(code == twoPlayerKeys[3]) {
-                    mf2.moveDown();
-                } else if(code == onePlayerKeys[3]) {
-                    mf.moveDown();
-                }
-            }
+                pressedKeys.remove(new Integer(code));
+            }	
         };
         addKeyListener(keyHandler);
+        
+        keyTimer = new Timer(40, new ActionListener() {
+        	private Map changes = new HashMap();
+        	public void actionPerformed(ActionEvent e) {
+    			//keys in arrays are stored in the order UP LEFT RIGHT DOWN DROP
+				//0	1	2	 3	    4
+        		Iterator i = pressedKeys.keySet().iterator();
+        		while (i.hasNext()) {
+        			Integer key = (Integer) i.next();
+        			int code = key.intValue();
+        			if (pressedKeys.get(key) == lagKey) {
+        				changes.put(key, lagKeyAgain);
+        				continue;
+        			}
+        			else if (pressedKeys.get(key) == lagKeyAgain) {
+        				changes.put(key, freeKey);
+        				continue;
+        			}
+        			if (code == twoPlayerKeys[1])
+                        mf2.moveLeft();
+                    else if (code == twoPlayerKeys[2])
+                        mf2.moveRight();
+                    else if (code == twoPlayerKeys[3])
+                    	mf2.moveDown();
+                    else if (code == twoPlayerKeys[0])
+                        mf2.rotation();
+                    else if (code == onePlayerKeys[1])
+                        mf.moveLeft();
+                    else if (code == onePlayerKeys[2])
+                        mf.moveRight();
+                    else if (code == onePlayerKeys[3])
+                        mf.moveDown();
+                    else if (code == onePlayerKeys[0])
+                        mf.rotation();
+        			if (pressedKeys.get(key) == newKey)
+        				changes.put(key, lagKey);
+        	    }
+        		i = changes.keySet().iterator();
+        		while (i.hasNext()) {
+        			Object key = i.next();
+        			pressedKeys.put(key, changes.get(key));
+        		}
+        		changes.clear();
+        	}
+        });
+        keyTimer.start();
+        
         pause();
-
+        
     }
-    
-    //public TwoPlayerGame(int temp){ 
-    //	TwoPlayerGame();
-    //}
-    
+
     public JPanel getButtonPanel() {
         JPanel r = new JPanel();
         BoxLayout rL = new BoxLayout(r,BoxLayout.Y_AXIS);
@@ -514,6 +554,7 @@ public class TwoPlayerGame extends JFrame  {
     private synchronized void pause() {
         mf2.pause();
         mf.pause();
+        pressedKeys.clear();
         if(mf.isPaused())
         	pauseBut.setText("Unpause");
         else
@@ -531,7 +572,7 @@ public class TwoPlayerGame extends JFrame  {
 
     public void restart() {
     	if (/*mf.isGameOver || mf2.isGameOver || */JOptionPane.showConfirmDialog(null, "Are you sure you want to restart the game?", "Restart Game", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-        	mf.restart();
+    		mf.restart();
         	mf2.restart();
         	message = false;
         	pause();
