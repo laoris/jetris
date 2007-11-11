@@ -2,12 +2,116 @@
 
 = Introduction =
 
-Add your content here.
+Storyboards
 
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+The Story of Selecting a New Game 
+Requirement: 1
+This is the story that describes the process of selecting a "New Game" from the "Jetris" menu. 
+-S1: The user will click the "Jetris" drop down menu.
+-S2: from the drop down menu the user will click the "New Game" option. 
+-S3: once this button is clicked a gui will pop up over the Jetris window. 
+-S4: If the user clicks outside of the "New Game" window then the system will beep indicating that the 
+player must start a new game or close the window. 
+
+The Story of Choosing the Number of Players 
+Requirement: 2 
+This is the story that describes the process of opening a one or two player game of Jetris. 
+•S1: The user will open Jetris 
+•S2: A dialog box will appear, allowing the user indicate whether they are playing a single or multiplayer 
+game. 
+•S3.1: If the user selects single player, a game of Jetris will begin in the paused state. 
+•S3.2: If the user selects multiplayer game, a dialog box will appear, allowing the user to select the mode 
+of play. 
+
+The Story of Selecting Types of Multiplayer Play 
+Requirement: 3
+This is the story that describes the process of selecting a type of multiplayer game. 
+-S1: In the new game GUI the three choices FTL, FTS, and FXL will be displayed next to radio buttons. 
+-S2: The radio buttons will be grayed out (unclickable) unless the user selects the "Multiplayer" radio 
+button. By default, the "FTL" button will be selected. 
+-S3: There will be text boxes next to the FTS and FXL lines with some default values (5000 points and 30 
+lines). 
+-S4: If a user enters a non integer value then an appropriate error message will be displayed when 
+starting the game, and the user will be taken back to the new game GUI. 
+
+The Story of Key Configuration 
+Requirement: 4 
+This is the story that describes the process of key configuration for player 1 and player 2. 
+•S1: The user will open Jetris. 
+•S2: From the "Jetris" menu the user will click the "Key Configuration" option. 
+•S3: A dialog box will appear, allowing the user to choose the keys for "left" "right" "down" and "change" 
+for both players. 
+•S4.1: User clicks “Cancel” and the key configurations do not change. 
+•S4.2: For player 1, "A" left, "S" down, "D" right, and "W" change. 
+•S4.3: For player 2, "<" left, "\/" down, ">" right, and "/\" change. 
+
+The Story of Pausing the Game 
+Requirement: 5 
+This is the story that describes the process of pausing the Jetris game. 
+•S1: The user will open Jetris 
+•S2: The user will click the "Pause" button. 
+•S3.1: A large "PAUSED" will be displayed over the current display. 
+•S3.2: The "Pause" button will change to "Unpause". 
+•S3.3: The time value will remain displayed. 
+•S4: The user will return to the game by clicking on the "Unpause" button. 
+
+The Story of Using Two Jetris Interfaces in Multiplayer Mode 
+Requirement: 6 
+This is the story that describes the process of using two GUI game interfaces in multiplayer mode. 
+•S1: The user will select their multiplayer game mode. 
+•S2: Two Panels of equal size will appear side by side, each having their game panel and statistics on the 
+side. 
+•S3: The users will use separate designated keys on either interface. 
+
+The Story of Starting Jetris in a Paused State 
+Requirement 7 
+This is the story that describes starting Jetris in a paused state. 
+-S1: The user will open Jetris. 
+-S2: Jetris will start in a paused state. 
+-S3: A large "PAUSED" will be displayed over the display. 
+
+The Story of the Popup that Confirms a Game Restart 
+Requirment: 8 
+This is the story that describes the popup that confirms a game restart. 
+-S1: The user will open Jetris. 
+-S2: The user will click "Restart". 
+-S3: A popup will appear asking if the user is sure that he/she wants to restart the game. 
+-S4.1: The user clicks "No" and the game resumes from previous point. 
+-S4.2: The user clicks "Yes" and the game restarts. 
+
+The Story of Using Ending a Multiplayer Game of Jetris 
+Requirement: 9 
+This is the story that describes the process of declaring the winner of a multiplayer game of Jetris 
+•S1: The user will select their multiplayer game mode. 
+•S2.1: First to lose (FTL)- When either player fills their game panel to the top, their opponent will be 
+declared the winner. 
+•S2.2: First to a certain score (FTS)- When either player acquires a (certain number) of points, they will 
+be declared the winner. 
+•S2.3: First to get X amount of lines (FXL)- When either player removes a (certain number) of lines, they 
+will be declared the winner. 
+•S3: A dialog box will appear declaring which player is the winner of the game. 
+•S4: If a user clicks OK at the bottom of the dialog box, another dialog box will allow the user to indicate 
+whether or not he or she wants to play another game. 
+•S5.1: If a user clicks the No button, the game will close. 
+•S5.2: If a user clicks the OK button, the dialog box will open that allows the user to indicate s single or 
+multiplayer game. 
+
+This is the storyboard which describes the actions that occur during gameplay when a user clears three lines in the game of Jetris. 
+Requirement: 10
+S1: A game of Jetris will have already started and currently be in progress 
+S2: A user will place a Jetris piece accordingly so that 3 lines of his/her screen are cleared from the 
+placement of that one piece. 
+S3: Once this occurs, one line will immediately be added to the screen of the opposing Player 
+
+This is the storyboard which describes the actions that occur during gameplay when a user clears four lines in the game of Jetris. 
+Requirement: 11
+S1: A game of Jetris will have already started and currently be in progress 
+S2: A user will place a Jetris piece accordingly so that 4 lines of the user's screen are cleared from 
+S3: One of the following special events will occur immediately following the clearing of  4 lines:
+•      A Destroyer Block will appear on the user's screen who cleared the 4 lines 
+•      A Cinder Block will appear on the opposing user's screen 
+•      A Stair Case Block will appear on the opposing user's screen 
+•      The blocks on the opposing player's screen will begin to fall at a faster rate
