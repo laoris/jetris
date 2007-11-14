@@ -4,15 +4,7 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.Component;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.Box;
-import javax.swing.JLabel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.MouseEvent;
@@ -26,9 +18,9 @@ import res.ResClass;
 /*			/			/			/			/			/
 /	This is a GUI to implement the New Game menu option.						/
 /	NewGame allows the user to start a new game of their choice via radio buttons		/
-/	This class is broken down into two sections VISUAL APPEARANCE and LOGIC		/
-/	To alter the look of the window, go to the VISUAL APPEARANCE section.			/	
-/	To alter how the window works, go to the LOGIC section						/
+/	This class is brGoen down into two sections VISUAL APPEARANCE and LOGIC		/
+/	To alter the loGo of the window, Go to the VISUAL APPEARANCE section.			/	
+/	To alter how the window works, Go to the LOGIC section						/
 /			/			/			/			/		         */
 
 
@@ -44,7 +36,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 	private JTextField scoreField = new JTextField("50000",8);
 	private JTextField lineField = new JTextField("50",3);
 	Container container = this.getContentPane();
-	JButton OK = new JButton("OK");
+	JButton Go = new JButton("Go");
 	JButton Cancel = new JButton("Cancel");
 	private final int LOSE = 0;
 	private final int SCORE = 1;
@@ -59,7 +51,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 	{
 	
 	//////////////////////////////////////////////////////////VISUAL APPEARANCE//////////////////////////////////////////////////////////
-		super("Game Selection");
+		super("Jetris - New Game");
 		//lines = lineVal;
 		//score = scoreVal;
 		
@@ -95,7 +87,6 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 
 		linePanel.add(lineSpace);
 		linePanel.add(lineField);
-
 
 		//create One Player Half of mainPanel 
 		JPanel onePlayerPanel = new JPanel();
@@ -133,19 +124,22 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		mainPanel.add(twoPlayerPanel);
 		mainPanel.add(Box.createHorizontalGlue());
 		
-		//contsruct button panel (OK and Cancel)
-
+		//contsruct button panel (Go and Cancel)
 		JPanel selectionPanel = new JPanel();
 		selectionPanel.setLayout(new GridLayout(1,2));
 		
-		selectionPanel.add(OK);
-		selectionPanel.add(Cancel);
+		selectionPanel.add(Go);
+		//selectionPanel.add(Cancel);
 
 		//construct complete window
-		JLabel newGameLabel = new JLabel("Select your game below:");
+		JLabel newGameLabel = new JLabel("New Game:");
 		newGameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
-		container.add(Box.createVerticalGlue());
+		JLabel label = new JLabel();
+		Icon icon = new ImageIcon(TwoPlayerGame.loadImage("splash.png"));
+		label.setIcon(icon);
+		container.add(label);
+		container.add(Box.createHorizontalGlue());
 		container.add(newGameLabel);
 		container.add(Box.createRigidArea(new Dimension(0,20)));
 		container.add(mainPanel);
@@ -153,8 +147,12 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		container.add(selectionPanel);
 		container.add(Box.createVerticalGlue());
 		
-		setLocation(500,250); //<-- alter this to refer back to JetrisMainFrame's current screen position so it is centered
-		
+		setLocation(300,150); //<-- alter this to refer back to JetrisMainFrame's current screen position so it is centered
+		setResizable(false);
+		//setUndecorated(true);
+		setSize(600, 440);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //consider disabling close operation on this GUI
+		setVisible(true);
 		
 		//////////////////////////////////////////////////////////LOGIC//////////////////////////////////////////////////////////
 		//addFocusListener( this );
@@ -162,16 +160,13 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		FTL.addChangeListener(this);
 		FTS.addChangeListener(this);
 		normal.addChangeListener(this);
-		OK.addMouseListener(this);
+		Go.addMouseListener(this);
 		Cancel.addActionListener(this);
-
-        clip = Applet.newAudioClip(new ResClass().getClass().getResource("tetris_blast_ingame.mid"));  	            
-        clip.loop();
 		
-
-		//addComponentListener(this);		
+		clip = Applet.newAudioClip(new ResClass().getClass().getResource("tetris_blast_ingame.mid"));
+		clip.loop();
 		
-	
+		//addComponentListener(this);
 	}
 
 
@@ -195,7 +190,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		}
 	}
 
-	//logic for OK button
+	//logic for Go button
 	public void mouseClicked(MouseEvent e)
 	{
 		try
@@ -234,9 +229,6 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 	public void mousePressed(MouseEvent e) { }
 	public void mouseExited(MouseEvent e) { }
 	public void mouseReleased(MouseEvent e) { }
-
-
-
 
 
 }

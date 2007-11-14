@@ -39,7 +39,7 @@ public class OnePlayerGame extends JFrame  {
     	private KeyListener keyHandler;
     	private Font font;
     	private HelpDialog helpDialog;
-    	private JMenuItem jetrisGame;
+    	private JMenuItem jetrisNewGame;
     	private JMenuItem jetrisRestart;
     	private JMenuItem jetrisPause;
     	private JMenuItem jetrisMusic;
@@ -123,11 +123,11 @@ public class OnePlayerGame extends JFrame  {
         mJetris.setText("Jetris");
         mJetris.setMnemonic('J');
         {
-            jetrisGame = new JMenuItem("2 Player Game");
-            mJetris.add(jetrisGame);
-            setKeyAcceleratorMenu(jetrisGame, 'G',0);
-            jetrisGame.addActionListener(mH);
-            jetrisGame.setMnemonic('G');
+            jetrisNewGame = new JMenuItem("New Game");
+            mJetris.add(jetrisNewGame);
+            setKeyAcceleratorMenu(jetrisNewGame, 'G',0);
+            jetrisNewGame.addActionListener(mH);
+            jetrisNewGame.setMnemonic('G');
             
             jetrisKeyConfig = new JMenuItem("Key Config");
             mJetris.add(jetrisKeyConfig);
@@ -340,13 +340,14 @@ public class OnePlayerGame extends JFrame  {
                     pause();
                 } else if (tmp == jetrisMusic) {
                 	sound();
-                } else if (tmp == jetrisGame) {
-                	if(JOptionPane.showConfirmDialog(frame,"Are you sure you wish to switch to a Two Player game?", "Two Player", JOptionPane.YES_NO_OPTION) == 0){
+                } else if (tmp == jetrisNewGame) {
+                	if(JOptionPane.showConfirmDialog(frame,"Are you sure you wish to quit this game?", "New Game", JOptionPane.YES_NO_OPTION) == 0){
                 		setVisible(false);
                 		clip[soundcycle].stop();
                 		mf.stopTimeThread();
-                		TwoPlayerGame mf = new TwoPlayerGame(1);
-                		dispose();
+                		//TwoPlayerGame mf = new TwoPlayerGame(1);
+                		new NewGame();
+						dispose();
                 	}
                 } else if (tmp == jetrisKeyConfig){
 					KC = new KeyConfig(1,onePlayerKeys, null);  //paramaters are number of players, player keys1, player keys2
