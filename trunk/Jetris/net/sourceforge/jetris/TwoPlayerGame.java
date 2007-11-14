@@ -53,15 +53,12 @@ public class TwoPlayerGame extends JFrame  {
     	private JMenuItem jetrisRestart;
     	private JMenuItem jetrisKeyConfig;
     	private JMenuItem jetrisPause;
-    	private JMenuItem jetrisGame;
+    	private JMenuItem jetrisNewGame;
     	private JMenuItem jetrisMusic;
     	private JMenuItem jetrisHiScore;
     	private JMenuItem jetrisExit;
     	private JMenuItem helpAbout;
     	private JMenuItem helpJetris;
-    	private JMenuItem jetrisGM1;
-    	private JMenuItem jetrisGM2;
-    	private JMenuItem jetrisGM3;
  		private JPanel about;
  		private JPanel hiScorePanel;
     	private final Player mf;
@@ -371,11 +368,11 @@ public class TwoPlayerGame extends JFrame  {
         mJetris.setText("Jetris");
         mJetris.setMnemonic('J');
         {
-            jetrisGame = new JMenuItem("1 Player Game");
-            mJetris.add(jetrisGame);
-            setKeyAcceleratorMenu(jetrisGame, 'G',0);
-            jetrisGame.addActionListener(mH);
-            jetrisGame.setMnemonic('G');
+            jetrisNewGame = new JMenuItem("New Game");
+            mJetris.add(jetrisNewGame);
+            setKeyAcceleratorMenu(jetrisNewGame, 'N',0);
+            jetrisNewGame.addActionListener(mH);
+            jetrisNewGame.setMnemonic('N');
 
             jetrisKeyConfig = new JMenuItem("Key Config");
             mJetris.add(jetrisKeyConfig);
@@ -417,32 +414,6 @@ public class TwoPlayerGame extends JFrame  {
             jetrisExit.addActionListener(mH);
             jetrisExit.setMnemonic('X');
         }
-        
-        JMenu mGameMode = new JMenu();
-        menu.add(mGameMode);
-        mGameMode.setText("Game Mode");
-        mGameMode.setMnemonic('G');
-        {
-            jetrisGM1 = new JMenuItem("Blood Sacrifice");
-            mGameMode.add(jetrisGM1);
-            setKeyAcceleratorMenu(jetrisGM1, KeyEvent.VK_F5,0);
-            jetrisGM1.addActionListener(mH);
-            jetrisGM1.setMnemonic('J');
-            
-            jetrisGM2 = new JMenuItem("Orgy of Gore");
-            mGameMode.add(jetrisGM2);
-            setKeyAcceleratorMenu(jetrisGM2, KeyEvent.VK_F6,0);
-            jetrisGM2.addActionListener(mH);
-            jetrisGM2.setMnemonic('J');
-            
-            jetrisGM3 = new JMenuItem("Entrails Eater");
-            mGameMode.add(jetrisGM3);
-            setKeyAcceleratorMenu(jetrisGM3, KeyEvent.VK_F7,0);
-            jetrisGM3.addActionListener(mH);
-            jetrisGM3.setMnemonic('J');
-            	        	
-        }
-        
         JMenu mHelp = new JMenu();
         menu.add(mHelp);
         mHelp.setText("Help");
@@ -619,15 +590,15 @@ public class TwoPlayerGame extends JFrame  {
                     restart();
                 } else if (tmp == jetrisPause) {
                     pause();
-                } else if (tmp == jetrisGame) {
-                	if(JOptionPane.showConfirmDialog(null,"Are you sure you wish to switch to a One Player game?", "One Player", JOptionPane.YES_NO_OPTION) == 0){
-                		setVisible(false);
+                } else if (tmp == jetrisNewGame) {
+                	if(JOptionPane.showConfirmDialog(null,"Are you sure you wish to quit this game?", "New Game", JOptionPane.YES_NO_OPTION) == 0){
                 		clip[soundcycle].stop();
-                		mf.stopTimeThread();
+                		//OnePlayerGame mf = new OnePlayerGame();
+						new NewGame();
+						mf.stopTimeThread();
                 		mf2.stopTimeThread();
-                		OnePlayerGame mf = new OnePlayerGame();
-                		dispose();
-                	}
+						dispose();
+					}
                 } else if (tmp == jetrisMusic) {
                 	sound();               	
                 } else if (tmp == jetrisHiScore) {
