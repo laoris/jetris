@@ -14,7 +14,7 @@ This class configures the keys for Jetris, it takes as a parameter whether the g
 default values of up down left and right for the one player mode are the up down left and right arrows
 for two player: default values for player 1 are up left down right = w a s d;  for player 2: up left down and right arrows
 */
-public class KeyConfig extends JFrame implements ActionListener, MouseListener 
+public class KeyConfig extends JFrame implements ActionListener, MouseListener, FocusListener 
 {	
 	// holds the number of players this game has
 	private int playNum;
@@ -61,6 +61,7 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 	private int[] twoPlayerKeys;// = new int[keyArraySize];
 	private int[] tempOnePlayerKeys = new int[keyArraySize]; //holds the Keys temporarily until ok is hit, then it commits
 	private int[] tempTwoPlayerKeys = new int[keyArraySize]; 
+	private int[] offLimitKeys = {KeyEvent.VK_N, KeyEvent.VK_K, KeyEvent.VK_R, KeyEvent.VK_P,KeyEvent.VK_M, KeyEvent.VK_H, KeyEvent.VK_X,KeyEvent.VK_J};
 	private boolean noRepeatKeys = true;
 	
 	public KeyConfig( int playerNumber, int[] onePKeys, int[] twoPKeys)
@@ -145,8 +146,9 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 		container.add(Box.createRigidArea(new Dimension(0,20)));
 		container.add(buttonPanel);
 		
-		this.setSize(320,300);
+		this.setSize(400,300);
 		this.setVisible(true);
+		this.setResizable(false);
 		
 //////////////////////////////////////start Logic////////////////////////////////////////////////////		
 		
@@ -166,12 +168,26 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 		twoRightField.setEditable(false);
 		twoDownField.setEditable(false);
 		twoDropField.setEditable(false);
+		oneUpField.requestFocusInWindow();
+		oneUpField.setBackground(Color.WHITE);
 		
 		keyHandler = new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e) //fills in the arrays and sets the text boxes when the user types keys
 			{
+				
 				int code = e.getKeyCode();
+				
+				for( int i = 0; i < offLimitKeys.length; i++ )
+				{
+					if( code == offLimitKeys[i])
+					{
+						errorLabel.setText("The key " + e.getKeyText(code) + " is reserved for a hot key, please choose another key");
+						return;
+					}
+					
+				}
+				errorLabel.setText("");
 				String text = e.getKeyText(code);
 				
 				if(oneUpField.isFocusOwner())
@@ -179,30 +195,43 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 					oneUpField.setText(text);
 					tempOnePlayerKeys[0] = code;
 					oneLeftField.requestFocusInWindow();
+					//oneLeftField.setBackground(Color.WHITE);
 				}
 				else if(oneLeftField.isFocusOwner())
 				{
 					oneLeftField.setText(text);
 					tempOnePlayerKeys[1] = code;
 					oneRightField.requestFocusInWindow();
+					//oneRightField.setBackground(Color.WHITE);
 				}
 				else if(oneRightField.isFocusOwner())
 				{
 					oneRightField.setText(text);
 					tempOnePlayerKeys[2] = code;
 					oneDownField.requestFocusInWindow();
+					//oneDownField.setBackground(Color.WHITE);
 				}
 				else if(oneDownField.isFocusOwner())
 				{
 					oneDownField.setText(text);
 					tempOnePlayerKeys[3] = code;
 					oneDropField.requestFocusInWindow();
+					//oneDropField.setBackground(Color.WHITE);
 				}
 				else if(oneDropField.isFocusOwner())
 				{
 					oneDropField.setText(text);
 					tempOnePlayerKeys[4] = code;
-					twoUpField.requestFocusInWindow();
+					
+					if( playNum == 1)
+					{
+						oneUpField.requestFocusInWindow();
+						//oneUpField.setBackground(Color.WHITE);
+					}
+					else
+					{
+						twoUpField.requestFocusInWindow();
+					}
 				}
 				else if(twoUpField.isFocusOwner())
 				{
@@ -232,6 +261,7 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 				{
 					twoDropField.setText(text);
 					tempTwoPlayerKeys[4] = code;
+					oneUpField.requestFocusInWindow();
 				}
 			}
 		};
@@ -246,6 +276,18 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 		twoRightField.addKeyListener(keyHandler);
 		twoDownField.addKeyListener(keyHandler);
 		twoDropField.addKeyListener(keyHandler);
+		
+		oneUpField.addFocusListener(this);
+		oneDownField.addFocusListener(this);
+		oneLeftField.addFocusListener(this);
+		oneRightField.addFocusListener(this);
+		oneDropField.addFocusListener(this);
+		
+		twoUpField.addFocusListener(this);
+		twoDownField.addFocusListener(this);
+		twoLeftField.addFocusListener(this);
+		twoRightField.addFocusListener(this);
+		twoDropField.addFocusListener(this);
 		
 
 	}
@@ -405,6 +447,7 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 				
 				
 			}
+			
 	}
 	public int[] getOnePlayerKeys()
 	{
@@ -439,6 +482,71 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener
 		{
 			twoPlayerKeys[i] = twoKeys[i];
 		}
+	}
+	public void focusGained( FocusEvent e )
+	{
+		if( e.getComponent().equals(oneUpField))
+			oneUpField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(oneDownField))
+			oneDownField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(oneLeftField))
+			oneLeftField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(oneRightField))
+			oneRightField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(oneDropField))
+			oneDropField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(twoUpField))
+			twoUpField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(twoDownField))
+			twoDownField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(twoLeftField))
+			twoLeftField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(twoRightField))
+			twoRightField.setBackground(Color.WHITE);
+		
+		if( e.getComponent().equals(twoDropField))
+			twoDownField.setBackground(Color.WHITE);
+	}
+	
+	public void focusLost( FocusEvent e)
+	{
+		if( e.getComponent().equals(oneUpField))
+			oneUpField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(oneDownField))
+			oneDownField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(oneLeftField))
+			oneLeftField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(oneRightField))
+			oneRightField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(oneDropField))
+			oneDropField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(twoUpField))
+			twoUpField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(twoDownField))
+			twoDownField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(twoLeftField))
+			twoLeftField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(twoRightField))
+			twoRightField.setBackground(Color.LIGHT_GRAY);
+		
+		if( e.getComponent().equals(twoDropField))
+			twoDownField.setBackground(Color.LIGHT_GRAY);
 	}
 	public void mouseClicked( MouseEvent e) {}
 	public void mousePressed( MouseEvent e) {}
