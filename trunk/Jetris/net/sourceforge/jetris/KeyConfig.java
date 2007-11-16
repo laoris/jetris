@@ -101,18 +101,18 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener, 
 			twoDownField.setEnabled(false);
 			twoDropField.setEnabled(false);
 			
-			twoUpField.setText("Disabled for one player mode");
-			twoLeftField.setText("Disabled for one player mode");
-			twoRightField.setText("Disabled for one player mode");
-			twoDownField.setText("Disabled for one player mode");
-			twoDropField.setText("Disabled for one player mode");
+			twoUpField.setText("---");
+			twoLeftField.setText("---");
+			twoRightField.setText("---");
+			twoDownField.setText("---");
+			twoDropField.setText("---");
 			
 		}
 		//construct the GUI
 		masterPanel.add(oneUpLbl);
 		masterPanel.add(oneUpField);
 		masterPanel.add(twoUpLbl);
-		masterPanel.add(twoUpField);	
+		masterPanel.add(twoUpField);
 		masterPanel.add(oneLeftLbl);
 		masterPanel.add(oneLeftField);
 		masterPanel.add(twoLeftLbl);
@@ -289,6 +289,9 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener, 
 		twoRightField.addFocusListener(this);
 		twoDropField.addFocusListener(this);
 		
+		setSize(new Dimension(400,245));
+		setVisible(true);
+		setResizable(false);
 
 	}
     
@@ -485,68 +488,12 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener, 
 	}
 	public void focusGained( FocusEvent e )
 	{
-		if( e.getComponent().equals(oneUpField))
-			oneUpField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(oneDownField))
-			oneDownField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(oneLeftField))
-			oneLeftField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(oneRightField))
-			oneRightField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(oneDropField))
-			oneDropField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(twoUpField))
-			twoUpField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(twoDownField))
-			twoDownField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(twoLeftField))
-			twoLeftField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(twoRightField))
-			twoRightField.setBackground(Color.WHITE);
-		
-		if( e.getComponent().equals(twoDropField))
-			twoDownField.setBackground(Color.WHITE);
+		e.getComponent().setBackground(Color.GREEN);
 	}
 	
 	public void focusLost( FocusEvent e)
 	{
-		if( e.getComponent().equals(oneUpField))
-			oneUpField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(oneDownField))
-			oneDownField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(oneLeftField))
-			oneLeftField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(oneRightField))
-			oneRightField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(oneDropField))
-			oneDropField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(twoUpField))
-			twoUpField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(twoDownField))
-			twoDownField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(twoLeftField))
-			twoLeftField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(twoRightField))
-			twoRightField.setBackground(Color.LIGHT_GRAY);
-		
-		if( e.getComponent().equals(twoDropField))
-			twoDownField.setBackground(Color.LIGHT_GRAY);
+	e.getComponent().setBackground(new Color(238,238,238));
 	}
 	public void mouseClicked( MouseEvent e) {}
 	public void mousePressed( MouseEvent e) {}

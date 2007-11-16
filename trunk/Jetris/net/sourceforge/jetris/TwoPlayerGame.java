@@ -620,7 +620,6 @@ public class TwoPlayerGame extends JFrame  {
                 } else if(tmp == jetrisKeyConfig){
 					KC= new KeyConfig(2, onePlayerKeys, twoPlayerKeys); //paramaters are number of players, int array 1, int array 2
                 KC.setSize(new Dimension(400,245));
-            	KC.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             	KC.setVisible(true);
             	KC.setResizable(false);
                 }
