@@ -33,6 +33,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 	private JRadioButton FTL = new JRadioButton("First to Lose");		//First to Lose (normal play 2player)
 	private JRadioButton FTS = new JRadioButton("First to Score");		//First to Score (play until a certain score 2player)
 	private JRadioButton FXL = new JRadioButton("First to X Lines");	//First to get X Lines
+	private JRadioButton DEMO = new JRadioButton("Demo Mode");			//Automated demo mode
 	private JTextField scoreField = new JTextField("50000",8);
 	private JTextField lineField = new JTextField("50",3);
 	Container container = this.getContentPane();
@@ -61,6 +62,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		gameModes.add(FTL);
 		gameModes.add(FTS);
 		gameModes.add(FXL);
+		gameModes.add(DEMO);
 		
 		//Text fields
 		JPanel scorePanel = new JPanel();
@@ -110,6 +112,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		buttonPanel2.add(scorePanel);
 		buttonPanel2.add(FXL);
 		buttonPanel2.add(linePanel);
+		buttonPanel2.add(DEMO);
 		
 		twoPlayerPanel.setLayout(new BoxLayout(twoPlayerPanel, BoxLayout.PAGE_AXIS));
 		twoPlayerPanel.add(twoPlayer);
@@ -150,7 +153,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		setLocation(300,150); //<-- alter this to refer back to JetrisMainFrame's current screen position so it is centered
 		setResizable(false);
 		//setUndecorated(true);
-		setSize(600, 440);
+		setSize(600, 460);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //consider disabling close operation on this GUI
 		setVisible(true);
 		
@@ -159,6 +162,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		FXL.addChangeListener(this);
 		FTL.addChangeListener(this);
 		FTS.addChangeListener(this);
+		DEMO.addChangeListener(this);
 		normal.addChangeListener(this);
 		Go.addMouseListener(this);
 		Cancel.addActionListener(this);
@@ -198,15 +202,19 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 			clip.stop();
 			if (FTS.isSelected())
 			{
-				new TwoPlayerGame(SCORE);
+				new TwoPlayerGame(SCORE, false);
 			}
 			else if (FXL.isSelected())
 			{
-				new TwoPlayerGame(LINES);
+				new TwoPlayerGame(LINES, false);
 			}
 			else if (FTL.isSelected())
 			{
-				new TwoPlayerGame(LOSE);
+				new TwoPlayerGame(LOSE, false);
+			}
+			else if (DEMO.isSelected())
+			{
+				new TwoPlayerGame(LOSE, true);
 			}
 			else
 			{

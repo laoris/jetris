@@ -83,11 +83,12 @@ public class TwoPlayerGame extends JFrame  {
                 
         // game mode constants
         private final int FTL = 0;
-	private final int FTS = 1;
-	private final int FXL = 2;
+        private final int FTS = 1;
+        private final int FXL = 2;
         
         // stores current game mode
         private int gameMode;
+        private boolean isDemoing;
 
     public class InteractionThread extends Thread {
    
@@ -146,15 +147,17 @@ public class TwoPlayerGame extends JFrame  {
    		
     }    
     
-    public TwoPlayerGame(int mode) {
+    public TwoPlayerGame(int mode, boolean demo) {
         super(NAME);
    		initMenu();
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    		it = new InteractionThread();
    		got = new GameOverThread();
 
-        mf = new Player(1,it, got);
-        mf2 = new Player(2,it, got);
+   		isDemoing = demo;
+   		
+   		mf = new Player(1,it, got, isDemoing);
+        mf2 = new Player(2,it, got, isDemoing);
 
         gameMode = mode;
         
@@ -179,12 +182,15 @@ public class TwoPlayerGame extends JFrame  {
             public void windowGainedFocus(WindowEvent arg0) {}
 
             public void windowLostFocus(WindowEvent arg0) {
-                mf.setPaused();
-                mf2.setPaused();
+            	if (!mf.isPaused())
+            		mf.pause();
+            	if (!mf2.isPaused())
+            		mf2.pause();
             }
         });
 
         // Would use Enums, but not allowed to instantiate them in a local context
+        // These are fixed (final) objects and can be compared by reference 
         final Object newKey = new Object();
         final Object lagKey = new Object();
         final Object lagKeyAgain = new Object();
@@ -205,7 +211,6 @@ public class TwoPlayerGame extends JFrame  {
                 pressedKeys.remove(new Integer(code));
             }	
         };
-        addKeyListener(keyHandler);
         
         keyTimer = new Timer(40, new ActionListener() {
         	private Map changes = new HashMap();
@@ -251,7 +256,10 @@ public class TwoPlayerGame extends JFrame  {
         		changes.clear();
         	}
         });
-        keyTimer.start();
+        if (!isDemoing) {
+            addKeyListener(keyHandler);
+        	keyTimer.start();
+        }
         
         pause();
         

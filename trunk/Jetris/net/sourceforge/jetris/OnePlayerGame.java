@@ -68,7 +68,7 @@ public class OnePlayerGame extends JFrame  {
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    		thread = new Thread();
    		frame = this;
-        mf = new Player(0, thread, thread);
+        mf = new Player(0, thread, thread, false);
         this.getContentPane().add(mf, BorderLayout.CENTER);
         this.getContentPane().add(getCopyrightPanel(), BorderLayout.SOUTH);
    		pack();
