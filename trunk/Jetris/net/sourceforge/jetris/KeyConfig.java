@@ -292,7 +292,7 @@ public class KeyConfig extends JFrame implements ActionListener, MouseListener, 
 		setSize(new Dimension(400,245));
 		setVisible(true);
 		setResizable(false);
-
+		setLocation(300,150);
 	}
     
 	public void actionPerformed( ActionEvent e) //button actions
