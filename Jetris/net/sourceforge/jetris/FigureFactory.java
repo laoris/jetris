@@ -5,31 +5,35 @@ import java.util.Random;
 
 public class FigureFactory {
     
-    Random r;
+    Random r = new Random();
     private int[] counts;
     private int lastLastOne;
     private int lastOne;
     
     FigureFactory() {
-        r = new Random();
-        counts = new int[7];
+    	counts = new int[7];
+    }
+
+    static Figure getFigure(int i) {
+    	Figure f;
+    	switch (i) {
+        case Figure.I: f = new FigureI(); break;
+        case Figure.T: f = new FigureT(); break;
+        case Figure.O: f = new FigureO(); break;
+        case Figure.L: f = new FigureL(); break;
+        case Figure.J: f = new FigureJ(); break;
+        case Figure.S: f = new FigureS(); break;
+        default /* Figure.Z */: f = new FigureZ(); break;
+        }
+    	return f;
     }
     
     Figure getRandomFigure() {
-        Figure f;
         int i = r.nextInt(7);
         while(lastLastOne == lastOne && lastOne == i+1) {
             i = r.nextInt(7);
         }
-        switch (i) {
-        case 0: f = new FigureI(); break;
-        case 1: f = new FigureT(); break;
-        case 2: f = new FigureO(); break;
-        case 3: f = new FigureL(); break;
-        case 4: f = new FigureJ(); break;
-        case 5: f = new FigureS(); break;
-        default: f = new FigureZ(); break;
-        }
+        Figure f = getFigure(i - 1);
         lastLastOne = lastOne;
         lastOne = i+1;
         counts[i]++;

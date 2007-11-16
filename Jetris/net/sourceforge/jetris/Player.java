@@ -61,6 +61,8 @@ public class Player extends JPanel  {
     private Thread got;
     private JButton pauseBut; 
     private boolean isOnePlayer;
+    private boolean isDemoing;
+    private DemoMode demoThread;
     
     // used to access the overall game frame
     
@@ -179,10 +181,10 @@ public class Player extends JPanel  {
         }
     }
     
-    public Player(int player, Thread it, Thread got) {
-        
+    public Player(int player, Thread it, Thread got, boolean demoMode) {
         this.player = player;
         this.got = got;
+        this.isDemoing = demoMode;
         font = new Font("Dialog", Font.PLAIN, 12);        
         gameover = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisgo.mid"));
         tg = new TetrisGrid(it);
@@ -203,7 +205,15 @@ public class Player extends JPanel  {
         all.add(getMenuPanel(), BorderLayout.EAST);
         add(all, BorderLayout.CENTER);
 
-        fNext = ff.getRandomFigure();
+        if (isDemoing) {
+        	demoThread = new DemoMode(this);
+        	fNext = demoThread.getNextFigure();
+        	demoThread.start();
+        }
+        // normal mode
+        else {
+        	fNext = ff.getRandomFigure();
+        }
         dropNext();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -616,7 +626,10 @@ public class Player extends JPanel  {
         levelLabel.setText(tg.getLevel()+" / 20");
 
         f = fNext;
-        fNext = ff.getRandomFigure();
+        if (isDemoing)
+        	fNext = demoThread.getNextFigure();
+        else
+        	fNext = ff.getRandomFigure();
         showNext(fNext);
 
         isGameOver = tg.isGameOver(f);
@@ -695,6 +708,13 @@ public class Player extends JPanel  {
 			else
 				pauseBut.setText("Pause");
 		}
+		if (isDemoing) {
+			if (isPause)
+				demoThread.stop();
+			else
+				demoThread.start();
+		}
+			
     }
 
     public void restart() {
@@ -715,7 +735,12 @@ public class Player extends JPanel  {
         playerspeed = 0;
         isGameOver = false;
         isPause = false;
-        fNext = ff.getRandomFigure();
+        if (isDemoing) {
+        	demoThread.reset();
+        	fNext = demoThread.getNextFigure();
+        }
+        else
+        	fNext = ff.getRandomFigure();
         tt.resetTime();
         time.setText("00:00:00");
         tg.resetStats();

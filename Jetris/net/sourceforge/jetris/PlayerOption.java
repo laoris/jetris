@@ -45,7 +45,7 @@ public class PlayerOption extends JFrame {
 				public void actionPerformed(ActionEvent aEvt) {
 					setVisible(false);
 					//clip.stop();
-					TwoPlayerGame MC = new TwoPlayerGame(1);
+					TwoPlayerGame MC = new TwoPlayerGame(1, false);
 					dispose();
 				}
 			}
