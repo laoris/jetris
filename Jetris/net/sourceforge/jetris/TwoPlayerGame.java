@@ -304,7 +304,58 @@ public class TwoPlayerGame extends JFrame  {
         jp.add(Box.createHorizontalGlue());
         r.add(jp);
         
-        r.add(Box.createRigidArea(new Dimension(0, 358)));
+       r.add(Box.createRigidArea(new Dimension(0, 158)));
+				
+				//Display game mode
+				
+				jp = new JPanel();
+				jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+
+				/*
+				String gameModeString = new String("Demo Mode");
+					JLabel gameModeLabel = new JLabel(gameModeString);
+					jp.add(gameModeLabel);
+					jp.add(Box.createHorizontalGlue());
+					r.add(jp);
+				*/
+				
+				
+				String gameModeString = new String("");
+				
+				if (isDemoing){
+					gameModeString = new String("     Demo Mode");
+				} else if (gameMode == 0) {
+					gameModeString = new String("    First To Lose");
+				} else if (gameMode == 1) {
+					gameModeString = new String("First To "+gameLimit+" Points");
+				} else if (gameMode == 2) {
+					gameModeString = new String("First To "+gameLimit+" Lines");
+				}
+				
+				JLabel gameModeLabel = new JLabel(gameModeString);
+					jp.add(gameModeLabel);
+					jp.add(Box.createHorizontalGlue());
+					r.add(jp);
+				
+				
+				
+				
+				
+				/*
+				//Display Winning Parameter
+				jp = new JPanel();
+				jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+				jp.add(Box.createRigidArea(new Dimension(31, 0)));
+				String gameModeParameterString = ""+gameLimit;
+				JLabel gameModeParameterLabel = new JLabel(gameModeParameterString);
+				jp.add(gameModeParameterLabel);
+				jp.add(Box.createHorizontalGlue());
+        r.add(jp);
+				*/
+				
+			
+				
+				r.add(Box.createRigidArea(new Dimension(0, 160)));
         
         //Restart Button
         
