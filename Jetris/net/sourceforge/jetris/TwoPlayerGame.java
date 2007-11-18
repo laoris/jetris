@@ -225,7 +225,7 @@ public class TwoPlayerGame extends JFrame  {
             }	
         };
         
-        keyTimer = new Timer(40, new ActionListener() {
+        keyTimer = new Timer(100, new ActionListener() {
         	private Map changes = new HashMap();
         	public void actionPerformed(ActionEvent e) {
     			//keys in arrays are stored in the order UP LEFT RIGHT DOWN DROP

@@ -10,6 +10,7 @@ public abstract class Figure {
     protected final static int J = 5;
     protected final static int S = 6;
     protected final static int Z = 7;
+    protected final static int Stair = 8;
     
     protected final static Color COL_I = Color.RED;
     protected final static Color COL_T = Color.GRAY;
@@ -18,6 +19,8 @@ public abstract class Figure {
     protected final static Color COL_J = Color.MAGENTA;
     protected final static Color COL_S = Color.BLUE;
     protected final static Color COL_Z = Color.GREEN;
+    protected final static Color COL_Stair = Color.BLACK;
+    
 
     protected int[] arrX;
     protected int[] arrY;
