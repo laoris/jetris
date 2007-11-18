@@ -63,6 +63,9 @@ public class Player extends JPanel  {
     private boolean isOnePlayer;
     private boolean isDemoing;
     private DemoMode demoThread;
+    private int pGameMode;
+    private int pLimit;
+    boolean isWinner;
     
     // used to access the overall game frame
     
@@ -181,10 +184,13 @@ public class Player extends JPanel  {
         }
     }
     
-    public Player(int player, Thread it, Thread got, boolean demoMode) {
+    public Player(int player, Thread it, Thread got, boolean demoMode, int mode, int limit) {
         this.player = player;
         this.got = got;
         this.isDemoing = demoMode;
+	pGameMode = mode;
+	pLimit = limit;
+	isWinner = false;
         font = new Font("Dialog", Font.PLAIN, 12);        
         gameover = Applet.newAudioClip(new ResClass().getClass().getResource("Tetrisgo.mid"));
         tg = new TetrisGrid(it);
@@ -632,8 +638,25 @@ public class Player extends JPanel  {
         	fNext = ff.getRandomFigure();
         showNext(fNext);
 
-        isGameOver = tg.isGameOver(f);
-
+	if (pGameMode == 0){
+		isGameOver = tg.isGameOver(f);
+	}
+	else if (pGameMode == 1){
+		if (pLimit <= tg.getScore()){
+			isGameOver = true;
+			isWinner = true;
+		}else{
+			isGameOver = tg.isGameOver(f);
+		}
+	}
+	else if (pGameMode == 2){
+		if (pLimit <= tg.getLines()){
+			isGameOver = true;
+			isWinner = true;
+		}else{
+			isGameOver = tg.isGameOver(f);
+		}
+	}
 
         isNewFigureDroped = true;
         updateStats();
