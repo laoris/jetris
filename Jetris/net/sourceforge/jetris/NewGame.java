@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.applet.AudioClip;
 import java.applet.Applet;
 import res.ResClass;
+import java.lang.*;
 
 /*			/			/			/			/			/
 /	This is a GUI to implement the New Game menu option.						/
@@ -139,10 +140,11 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		newGameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel();
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		Icon icon = new ImageIcon(TwoPlayerGame.loadImage("splash.png"));
 		label.setIcon(icon);
-		container.add(label);
 		container.add(Box.createHorizontalGlue());
+		container.add(label);
 		container.add(newGameLabel);
 		container.add(Box.createRigidArea(new Dimension(0,20)));
 		container.add(mainPanel);
@@ -202,19 +204,21 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 			clip.stop();
 			if (FTS.isSelected())
 			{
-				new TwoPlayerGame(SCORE, false);
+				int score = Integer.parseInt(scoreField.getText());
+				new TwoPlayerGame(SCORE, false, score);
 			}
 			else if (FXL.isSelected())
 			{
-				new TwoPlayerGame(LINES, false);
+				int lines = Integer.parseInt(lineField.getText());
+				new TwoPlayerGame(LINES, false, lines);
 			}
 			else if (FTL.isSelected())
 			{
-				new TwoPlayerGame(LOSE, false);
+				new TwoPlayerGame(LOSE, false, 0);
 			}
 			else if (DEMO.isSelected())
 			{
-				new TwoPlayerGame(LOSE, true);
+				new TwoPlayerGame(LOSE, true, 0);
 			}
 			else
 			{
@@ -225,6 +229,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		}
 		catch (NumberFormatException exc)
 		{
+			JOptionPane.showMessageDialog(null,"    Invalid Entry: Please type only numbers" ,"Error", JOptionPane.PLAIN_MESSAGE);
 			System.out.println("Invalid Number Format. Create Warning.");
 		}
 	}

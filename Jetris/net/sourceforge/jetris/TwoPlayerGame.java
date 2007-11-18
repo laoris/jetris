@@ -89,6 +89,7 @@ public class TwoPlayerGame extends JFrame  {
         // stores current game mode
         private int gameMode;
         private boolean isDemoing;
+	private int gameLimit;
 
     public class InteractionThread extends Thread {
    
@@ -132,22 +133,33 @@ public class TwoPlayerGame extends JFrame  {
         public void run() {
         		if(mf.getGameOver()) {
         			mf2.isGameOver = mf.isGameOver;
+				
         			if(!message){
-        				message = true;
-        				JOptionPane.showMessageDialog(null,"                          Player 2 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
-        			}
+					message = true;
+					if (mf.isWinner){
+						JOptionPane.showMessageDialog(null,"                          Player 1 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
+					}
+					else{
+						JOptionPane.showMessageDialog(null,"                          Player 2 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
+					}
+				}
         		} else if(mf2.getGameOver()){
         			mf.isGameOver = mf2.isGameOver;
         			if(!message){
-        				message = true;
-        				JOptionPane.showMessageDialog(null,"                          Player 1 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
-        			}
-        		}
-   		}
+					message = true;
+					if (mf2.isWinner){
+						JOptionPane.showMessageDialog(null,"                          Player 2 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
+					}
+					else{
+						JOptionPane.showMessageDialog(null,"                          Player 1 wins" ,"WINNER", JOptionPane.PLAIN_MESSAGE);
+					}
+				}
+			}
+	}
    		
-    }    
+   }    
     
-    public TwoPlayerGame(int mode, boolean demo) {
+    public TwoPlayerGame(int mode, boolean demo, int limit) {
         super(NAME);
    		initMenu();
    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -156,11 +168,12 @@ public class TwoPlayerGame extends JFrame  {
 
    		isDemoing = demo;
    		
-   		mf = new Player(1,it, got, isDemoing);
-        mf2 = new Player(2,it, got, isDemoing);
+   		mf = new Player(1,it, got, isDemoing, mode, limit);
+        mf2 = new Player(2,it, got, isDemoing, mode, limit);
 
         gameMode = mode;
-        
+	gameLimit = limit;
+	
         this.getContentPane().add(mf, BorderLayout.WEST);
         this.getContentPane().add(mf2, BorderLayout.EAST);
         this.getContentPane().add(getButtonPanel(), BorderLayout.CENTER);
