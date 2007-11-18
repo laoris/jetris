@@ -758,6 +758,7 @@ public class Player extends JPanel  {
         playerspeed = 0;
         isGameOver = false;
         isPause = false;
+		isWinner = false;
         if (isDemoing) {
         	demoThread.reset();
         	fNext = demoThread.getNextFigure();
