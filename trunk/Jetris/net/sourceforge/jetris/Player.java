@@ -497,6 +497,7 @@ public class Player extends JPanel  {
             case Figure.J: f = new FigureJ(); f.setOffset(1,1); break;
             case Figure.L: f = new FigureL(); f.setOffset(1,1); break;
             case Figure.S: f = new FigureS(); f.setOffset(1,1); break;
+                case Figure.Stair: f = new FigureStair(); f.setOffset(0,0); break;
             default: f = new FigureZ(); f.setOffset(1,1); break;
             }
             

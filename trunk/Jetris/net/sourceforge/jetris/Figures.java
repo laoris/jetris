@@ -106,7 +106,7 @@ class FigureT extends Figure {
 class FigureO extends Figure {
 
     protected FigureO() {
-        super(new int[] {0,0,1,1}, 
+        super(new int[] {0,0,1,1},
               new int[] {0,1,0,1});
     }
     
@@ -123,6 +123,53 @@ class FigureO extends Figure {
         return COL_O;
     }
 }
+
+class FigureStair extends Figure {
+
+    private int[][] rotations; 
+    
+    private int curRotation;
+    
+    protected FigureStair() {
+        super(new int[] {0,1,2,3}, 
+              new int[] {0,1,2,3});
+        
+        rotations = new int[4][4];
+        rotations[0] = new int[] {0,1,2,3};
+        rotations[1] = new int[] {0,1,2,3};
+        rotations[2] = new int[] {3,2,1,0};
+        rotations[3] = new int[] {0,1,2,3};
+        curRotation = 0;
+    }
+    
+    protected void rotationRight() {
+        if(curRotation == 0) {
+            arrX = rotations[2];
+            arrY = rotations[3];
+            curRotation = 1;
+            
+        } else {
+            arrX = rotations[0];
+            arrY = rotations[1];
+            curRotation = 0;
+        }
+    }
+    
+    protected void rotationLeft() {
+        rotationRight();
+    }
+    
+    protected int getGridVal() {
+        return Z;
+    }
+    
+    protected Color getGolor() {
+        return COL_Z;
+    }
+}
+
+
+
 
 class FigureL extends Figure {
     
