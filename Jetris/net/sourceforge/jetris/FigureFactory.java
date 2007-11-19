@@ -11,7 +11,7 @@ public class FigureFactory {
     private int lastOne;
     
     FigureFactory() {
-    	counts = new int[8];
+    	counts = new int[7];
     }
 
     static Figure getFigure(int i) {
@@ -23,24 +23,51 @@ public class FigureFactory {
         case Figure.L: f = new FigureL(); break;
         case Figure.J: f = new FigureJ(); break;
         case Figure.S: f = new FigureS(); break;
-        case Figure.Stair: f = new FigureStair(); break;
         default /* Figure.Z */: f = new FigureZ(); break;
         }
     	return f;
     }
     
-    Figure getRandomFigure() {
-        int i = r.nextInt(8);
-        while(lastLastOne == lastOne && lastOne == i+1) {
-            i = r.nextInt(8);
+    static Figure getSpecialFigure(int i) {
+        Figure f;
+        i += 8; // add 8 because special blocks are 8 and up
+        switch (i) {
+            case Figure.Stair: f = new FigureStair(); break;
+            case Figure.Corners: f = new FigureCorners(); break;
+
+            default: f = new FigureStair(); break;
         }
-        Figure f = getFigure(i - 1);
+        
+        return f;  
+    }
+    
+    Figure getRandomFigure() {
+        int i = r.nextInt(7);
+        while(lastLastOne == lastOne && lastOne == i+1) {
+            i = r.nextInt(7);
+
+        }
+        Figure f = getFigure(i);
         lastLastOne = lastOne;
         lastOne = i+1;
         counts[i]++;
          
         i = r.nextInt(4);
 
+        for (int j = 0; j < i; j++) {
+            f.rotationRight();
+        }
+        
+        return f;
+    }
+    
+    Figure getRandomSpecialFigure() {
+        
+        int i = r.nextInt(2);
+        Figure f = getSpecialFigure(i);
+        
+        i = r.nextInt(4);
+        
         for (int j = 0; j < i; j++) {
             f.rotationRight();
         }
