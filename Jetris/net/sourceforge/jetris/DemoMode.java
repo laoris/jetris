@@ -6,7 +6,7 @@ import java.util.Random;
 import javax.swing.Timer;
 
 public class DemoMode implements ActionListener {
-	private static final int TIMEOUT = 300; // milliseconds between each move
+	private static final int TIMEOUT = 100; // milliseconds between each move
 	private static Random random = new Random();
 	private static final int LEFT   = 0;
 	private static final int RIGHT  = 1;
@@ -65,6 +65,64 @@ public class DemoMode implements ActionListener {
 			{Figure.T,	LEFT,	LEFT,	LEFT,	DROP},
 			{Figure.I,	LEFT,	LEFT,	LEFT,	LEFT,	DROP},
 		},
+		// move set 2
+		{
+			{Figure.J,	LEFT,	ROTATE,	LEFT,	LEFT,	LEFT,	DROP},	// piece 1 (1-indexed)
+			{Figure.Z,	LEFT,	LEFT,	DROP},	// piece 2
+			{Figure.O,	RIGHT,	DROP},
+			{Figure.I,	RIGHT,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.T,	LEFT,	DROP},
+			{Figure.L,	ROTATE,	LEFT,	LEFT,	DROP},
+			{Figure.T,	ROTATE,	LEFT,	LEFT,	LEFT,	LEFT,	DROP},
+			{Figure.Z,	LEFT,	ROTATE,	LEFT,	LEFT,	LEFT,	DROP},
+			{Figure.O,	LEFT,	LEFT,	DROP},
+			{Figure.Z,	LEFT,	LEFT,	LEFT,	ROTATE,	LEFT,	DROP},	// piece 10
+			{Figure.I,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.L,	ROTATE,	ROTATE,	LEFT,	DROP},
+			{Figure.Z,	ROTATE,	LEFT,	LEFT,	DROP},
+			{Figure.Z,	ROTATE,	LEFT,	LEFT,	LEFT,	LEFT,	DROP},
+			{Figure.I,	RIGHT,	DROP},
+			{Figure.L,	DROP},
+			{Figure.Z,	LEFT,	ROTATE,	LEFT,	DROP},
+			{Figure.O,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.Z,	ROTATE,	LEFT,	LEFT,	LEFT,	LEFT,	DROP},
+			{Figure.Z,	ROTATE,	LEFT,	LEFT,	LEFT,	LEFT,	DROP},	// piece 20
+			{Figure.I,	RIGHT,	RIGHT,	DROP},
+			{Figure.I,	RIGHT,	RIGHT,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.O,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.L,	RIGHT,	ROTATE,	ROTATE,	DROP},
+			{Figure.I,	DROP},
+			{Figure.O,	RIGHT,	DROP},
+			{Figure.J,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.Z,	ROTATE,	LEFT,	LEFT,	LEFT,	LEFT,	DROP},
+			{Figure.Z,	ROTATE,	LEFT,	LEFT,	DROP},
+			{Figure.J,	RIGHT,	RIGHT,	RIGHT,	ROTATE,	ROTATE,	DROP},	// piece 30
+			{Figure.I,	RIGHT,	RIGHT,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.O,	RIGHT,	DROP},
+			{Figure.J,	ROTATE,	ROTATE,	ROTATE,	RIGHT,	DROP},
+			{Figure.O,	RIGHT,	RIGHT,	DROP},
+			{Figure.O,	DROP},
+			{Figure.Z,	LEFT,	LEFT,	ROTATE,	DROP},
+			{Figure.O,	DROP},
+			{Figure.I,	RIGHT,	RIGHT,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.J,	RIGHT,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.T,	ROTATE,	ROTATE,	ROTATE,	LEFT,	LEFT,	DROP},	// piece 40
+			{Figure.J,	ROTATE,	ROTATE,	LEFT,	DROP},
+			{Figure.Z,	ROTATE,	LEFT,	LEFT,	LEFT,	LEFT,	DROP},
+			{Figure.T,	ROTATE,	ROTATE,	ROTATE,	LEFT,	LEFT,	LEFT,	LEFT,	DROP},
+			{Figure.L,	ROTATE,	ROTATE,	LEFT,	LEFT,	LEFT,	DROP},
+			{Figure.J,	RIGHT,	ROTATE,	RIGHT,	ROTATE,	RIGHT,	RIGHT,	DROP},
+			{Figure.L,	ROTATE,	RIGHT,	ROTATE,	RIGHT,	ROTATE,	DROP},
+			{Figure.O,	RIGHT,	RIGHT,	DROP},
+			{Figure.T,	DROP},
+			{Figure.L,	RIGHT,	ROTATE,	RIGHT,	ROTATE,	RIGHT,	RIGHT,	DROP},
+			{Figure.J,	LEFT,	ROTATE,	ROTATE,	LEFT,	ROTATE,	LEFT,	DROP},	// piece 50
+			{Figure.O,	RIGHT,	RIGHT,	RIGHT,	DROP},
+			{Figure.S,	RIGHT,	DROP},
+			{Figure.L,	LEFT,	LEFT,	ROTATE,	LEFT,	LEFT,	DROP},
+			{Figure.T,	LEFT,	DROP},
+			{Figure.L,	RIGHT,	ROTATE,	RIGHT,	RIGHT,	ROTATE,	RIGHT,	DROP},
+		}
 		
 	};
 	
