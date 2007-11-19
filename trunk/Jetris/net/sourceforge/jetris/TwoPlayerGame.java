@@ -105,24 +105,35 @@ public class TwoPlayerGame extends JFrame  {
                     // this keeps the attacked value in the tetris grid updated
                     mf.tg.playerAttacked(mf2.tg.attackPlayer());
                     mf2.tg.playerAttacked(mf.tg.attackPlayer());
-
-                    // this uses the attacked value to add the appropriate lines to the other player's grid
-                    if (mf.tg.attacked > 0) {
+                    
+                    // this controls special blocks
+                    if (mf.tg.tetrisCleared == true){
+                        mf2.specialBlock = true;
+                        mf.tg.tetrisCleared = false;
+                    }
+                    if (mf2.tg.tetrisCleared == true){
+                        mf.specialBlock = true;
+                        mf2.tg.tetrisCleared = false;
+                    }
+                   
+                    if (mf.tg.attacked > 0 || mf.specialBlock == true) {
                         mf.playerLabel.setText("Player 1 - ATTACKED!");
                     }
                     else{
                         mf.playerLabel.setText("Player 1");
                     }
                     
+                    // this uses the attacked value to add the appropriate lines to the other player's grid                   
                     mf.tg.addLines();
                     
-                    if (mf2.tg.attacked > 0){
+                    if (mf2.tg.attacked > 0 || mf2.specialBlock == true){
                         mf2.playerLabel.setText("Player 2 - ATTACKED!");
                     }
                     else{
                         mf2.playerLabel.setText("Player 2");
                     }
                     
+                    // this uses the attacked value to add the appropriate lines to the other player's grid 
                     mf2.tg.addLines();
                 }
         }
@@ -225,7 +236,7 @@ public class TwoPlayerGame extends JFrame  {
             }	
         };
         
-        keyTimer = new Timer(100, new ActionListener() {
+        keyTimer = new Timer(80, new ActionListener() {
         	private Map changes = new HashMap();
         	public void actionPerformed(ActionEvent e) {
     			//keys in arrays are stored in the order UP LEFT RIGHT DOWN DROP

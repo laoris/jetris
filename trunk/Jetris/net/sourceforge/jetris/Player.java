@@ -66,6 +66,7 @@ public class Player extends JPanel  {
     private int pGameMode;
     private int pLimit;
     boolean isWinner;
+    boolean specialBlock;
     
     // used to access the overall game frame
     
@@ -189,6 +190,7 @@ public class Player extends JPanel  {
         this.got = got;
         this.isDemoing = demoMode;
 	pGameMode = mode;
+        specialBlock = false;
 	pLimit = limit;
 	isWinner = false;
         font = new Font("Dialog", Font.PLAIN, 12);        
@@ -596,7 +598,8 @@ public class Player extends JPanel  {
                     case Figure.J: c = Figure.COL_J; break;
                     case Figure.L: c = Figure.COL_L; break;
                     case Figure.S: c = Figure.COL_S; break;
-                    default: c = Figure.COL_Z; break;
+                    case Figure.Z: c = Figure.COL_Z; break;
+                    default: c = Figure.COL_Special; break;
                     }
                     cells[i][j].setBackground(c);
                     cells[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -636,7 +639,13 @@ public class Player extends JPanel  {
         if (isDemoing)
         	fNext = demoThread.getNextFigure();
         else
-        	fNext = ff.getRandomFigure();
+        	if (specialBlock == true){
+                    fNext = ff.getRandomSpecialFigure();
+                    specialBlock = false;
+                }
+                else{
+                    fNext = ff.getRandomFigure();
+                }
         showNext(fNext);
 
 	if (pGameMode == 0){

@@ -24,6 +24,7 @@ public class TetrisGrid implements Serializable{
     public int attack = 0;
     public int attacked = 0;
     private Thread it;
+    protected boolean tetrisCleared;
     
     TetrisGrid(Thread it) {
     	this.it = it;
@@ -49,7 +50,9 @@ public class TetrisGrid implements Serializable{
                 JOptionPane.showMessageDialog(null, "Could not load HiScore!", "Error", 
                         JOptionPane.ERROR_MESSAGE);
             }
-        } 
+        }
+        
+        tetrisCleared = false;
     }
     
     boolean addFigure(Figure f) {
@@ -131,7 +134,7 @@ public class TetrisGrid implements Serializable{
                 attack = 1;
                 System.out.println("attack is set to " + attack);}
             else if (lines == 4){
-                // code for special block here
+                tetrisCleared = true;
                 System.out.println("the program will insert a special block");
             }
         }
@@ -229,7 +232,7 @@ public class TetrisGrid implements Serializable{
     }
     
     public int attackPlayer() {
-
+        
         int tmp = attack;
     	attack = 0;
            System.out.println("attack player method is called, " + tmp + " is returned.");

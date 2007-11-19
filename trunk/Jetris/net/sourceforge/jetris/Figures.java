@@ -1,5 +1,6 @@
 package net.sourceforge.jetris;
 import java.awt.Color;
+import java.util.Random;
 
 class FigureI extends Figure {
 
@@ -160,16 +161,41 @@ class FigureStair extends Figure {
     }
     
     protected int getGridVal() {
-        return Z;
+        return Stair;
     }
     
     protected Color getGolor() {
-        return COL_Z;
+        return COL_Special;
     }
 }
 
+class FigureCorners extends Figure {
 
+    private int[][] rotations; 
+    
+    private int curRotation;
+    
+    protected FigureCorners() {
+        super(new int[] {0,0,3,3}, 
+              new int[] {0,3,0,3});
 
+    }
+    
+    protected void rotationRight() {
+    }
+    
+    protected void rotationLeft() {
+        rotationRight();
+    }
+    
+    protected int getGridVal() {
+        return Corners;
+    }
+    
+    protected Color getGolor() {
+        return COL_Special;
+    }
+}
 
 class FigureL extends Figure {
     
