@@ -8,6 +8,7 @@
 
 javac "net\sourceforge\jetris\Figure.java"
 javac "net\sourceforge\jetris\Figures.java"
+javac "net\sourceforge\jetris\DemoMode.java"
 javac "net\sourceforge\jetris\HTMLLink.java"
 javac "net\sourceforge\jetris\SplashScreen.java"
 javac "net\sourceforge\jetris\FigureFactory.java"
