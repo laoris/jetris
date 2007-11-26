@@ -39,6 +39,7 @@ public class Player extends JPanel  {
     private JLabel[] statsL;
     private JLabel levelLabel;
     private JLabel hiScoreLabel;
+    private JLabel speedLabel;
     public JLabel playerLabel;
     private JPanel[][] cells;
     private JPanel[][] next;
@@ -57,7 +58,7 @@ public class Player extends JPanel  {
     protected TetrisGrid tg;
     private boolean isPause;
     private int playerspeed = 0;
-    private int difference = 0;
+    //private int difference = 0;
     private Thread got;
     private JButton pauseBut; 
     private boolean isOnePlayer;
@@ -66,6 +67,7 @@ public class Player extends JPanel  {
     private int pGameMode;
     private int pLimit;
     boolean isWinner;
+    protected int speed;
     
     // special block variables
     boolean harmfulBlock;
@@ -86,8 +88,6 @@ public class Player extends JPanel  {
                     } else {
                         if(isNewFigureDroped) {
                             isNewFigureDroped = false;
-                            difference = playerspeed-tg.getOpponentSpeed();
-                            if(difference < 0) difference = 0;
                             //System.out.println("Player " + player + " Fallrate = " + (1100-difference*50-50*tg.getLevel()) + " milliseconds");
                             count = 0;
                             nextMove();
@@ -96,7 +96,7 @@ public class Player extends JPanel  {
                             Thread.sleep(50);
                         }
                         count += 50;
-                        if(count + 50*difference + 50*tg.getLevel() >= 1100) {
+                        if(count + 50*speed + 50*tg.getLevel() >= 1100) {
                             count = 0;
                             nextY++;
                             nextMove();
@@ -193,6 +193,7 @@ public class Player extends JPanel  {
         this.got = got;
         this.isDemoing = demoMode;
 	pGameMode = mode;
+        speed = 0;
         helpfulBlock = false;
         harmfulBlock = false;
 	pLimit = limit;
@@ -238,6 +239,10 @@ public class Player extends JPanel  {
         tt.start();
     }
 
+    public int getSpeed(){
+        return speed;
+    }
+    
     private JPanel getPlayPanel() {
         playPanel = new JPanel();
         playPanel.setLayout(new GridLayout(20,10));
@@ -353,6 +358,24 @@ public class Player extends JPanel  {
         jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
         jp.add(Box.createRigidArea(ra));
         jp.add(levelLabel);
+        jp.add(Box.createHorizontalGlue());
+        r.add(jp);
+        
+        // speed statistic:
+        jp = new JPanel();
+        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+        jp.add(Box.createRigidArea(ra));
+        jp.add(new JLabel("SPEED:"));
+        jp.add(Box.createHorizontalGlue());
+        r.add(jp);
+        
+        speedLabel = new JLabel("1");
+        speedLabel.setForeground(Color.BLUE);
+        
+        jp = new JPanel();
+        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+        jp.add(Box.createRigidArea(ra));
+        jp.add(speedLabel);
         jp.add(Box.createHorizontalGlue());
         r.add(jp);
         
@@ -639,6 +662,7 @@ public class Player extends JPanel  {
         score.setText(""+tg.getScore());
         lines.setText(""+tg.getLines());
         levelLabel.setText(tg.getLevel()+" / 20");
+        speedLabel.setText(String.valueOf(tg.getLevel() + speed));
 
         f = fNext;
         if (isDemoing)
