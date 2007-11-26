@@ -61,7 +61,8 @@ public class TwoPlayerGame extends JFrame  {
     	private JMenuItem helpAbout;
     	private JMenuItem helpJetris;
  		private JPanel about;
- 		private JPanel hiScorePanel;
+ 		private JPanel hiScorePanel;  
+            
     	private final Player mf;
     	private final Player mf2;
 		private AudioClip[] clip = new AudioClip[3];
@@ -95,6 +96,7 @@ public class TwoPlayerGame extends JFrame  {
         // for random special block generation
         private Random r = new Random();
         boolean helpful;
+        boolean speedNotSpecial;
         
 
     public class InteractionThread extends Thread {
@@ -103,40 +105,68 @@ public class TwoPlayerGame extends JFrame  {
         	
                 if (gameMode == FTL || gameMode == FXL)
                 {
-                    System.out.println("thread runs");
+                    boolean p1SpeedIncreased = false;
+                    boolean p2SpeedIncreased = false;
                     
+                    // Randomly choose an event if a tetris is cleared
                     helpful = r.nextBoolean();
-
-                    mf.setPlayerSpeed(mf2.tg.getOpponentSpeed());
-                    mf2.setPlayerSpeed(mf.tg.getOpponentSpeed());
-
+                    speedNotSpecial = r.nextBoolean();
+                    
                     // this keeps the attacked value in the tetris grid updated
                     mf.tg.playerAttacked(mf2.tg.attackPlayer());
                     mf2.tg.playerAttacked(mf.tg.attackPlayer());
                     
-                    // this controls special blocks
+                    /*** this controls tetris events ***/
+                    
+                    // if Player One has cleared the Tetris...
                     if (mf.tg.tetrisCleared == true){
-                        System.out.println("helpful = " + helpful);
+                       
+                        // if speed is chosen
+                        if (speedNotSpecial) {
+                            if (helpful)
+                                mf.speed--;
+                            else{
+                                mf2.speed++;
+                                p2SpeedIncreased = true;
+                            }
+                        }
                         
-                        if (helpful)
-                            mf.helpfulBlock = true;
-                        else
-                            mf2.harmfulBlock = true;
+                        // if special block is chosen
+                        else{
+                            if (helpful)
+                                mf.helpfulBlock = true;
+                            else
+                                mf2.harmfulBlock = true;
+                        }
                         
-                        mf.tg.tetrisCleared = false;
+                         mf.tg.tetrisCleared = false;
                     }
+                    
+                    // If Player Two has cleared the Tetris...
                     if (mf2.tg.tetrisCleared == true){
-                        System.out.println("helpful = " + helpful);
+                       
+                        // if speed is chosen
+                        if (speedNotSpecial) {
+                            if (helpful)
+                                mf2.speed--;
+                            else{
+                                mf.speed++;
+                                p1SpeedIncreased = true;
+                            }
+                        }
                         
-                        if (helpful)
-                            mf2.helpfulBlock = true;
-                        else
-                            mf.harmfulBlock = true;
+                        // if special block is chosen
+                        else {
+                            if (helpful)
+                                mf2.helpfulBlock = true;
+                            else
+                                mf.harmfulBlock = true;
+                        }
                         
                         mf2.tg.tetrisCleared = false;
                     }
                    
-                    if (mf.tg.attacked > 0 || mf.harmfulBlock == true) {
+                    if (mf.tg.attacked > 0 || mf.harmfulBlock == true || p1SpeedIncreased == true) {
                         mf.playerLabel.setText("Player 1 - ATTACKED!");
                     }
                     else{
@@ -146,7 +176,7 @@ public class TwoPlayerGame extends JFrame  {
                     // this uses the attacked value to add the appropriate lines to the other player's grid                   
                     mf.tg.addLines();
                     
-                    if (mf2.tg.attacked > 0 || mf2.harmfulBlock == true){
+                    if (mf2.tg.attacked > 0 || mf2.harmfulBlock == true || p2SpeedIncreased == true){
                         mf2.playerLabel.setText("Player 2 - ATTACKED!");
                     }
                     else{

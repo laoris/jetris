@@ -26,6 +26,8 @@ public class TetrisGrid implements Serializable{
     private Thread it;
     protected boolean tetrisCleared;
     boolean destructionImpending = false;
+    Random r = new Random();
+    int specialEventType;
     
     TetrisGrid(Thread it) {
     	this.it = it;
@@ -54,6 +56,7 @@ public class TetrisGrid implements Serializable{
         }
         
         tetrisCleared = false;
+        specialEventType = 0;
     }
     
     boolean addFigure(Figure f) {
@@ -174,7 +177,12 @@ public class TetrisGrid implements Serializable{
                 attack = 1;
                 System.out.println("attack is set to " + attack);}
             else if (lines == 4){
-                tetrisCleared = true;
+                specialEventType = r.nextInt(7);
+                
+                if (specialEventType == 1) // probability of add 4 lines event is 1/7
+                    attack = 4;
+                else // otherwise, proceed to other possible tetris events in the interaction thread
+                    tetrisCleared = true;
             }
         }
 
