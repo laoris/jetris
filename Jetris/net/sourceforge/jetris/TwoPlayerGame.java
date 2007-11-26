@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Random;
 
 
 public class TwoPlayerGame extends JFrame  {
@@ -90,6 +91,11 @@ public class TwoPlayerGame extends JFrame  {
         private int gameMode;
         private boolean isDemoing;
 	private int gameLimit;
+        
+        // for random special block generation
+        private Random r = new Random();
+        boolean helpful;
+        
 
     public class InteractionThread extends Thread {
    
@@ -98,6 +104,8 @@ public class TwoPlayerGame extends JFrame  {
                 if (gameMode == FTL || gameMode == FXL)
                 {
                     System.out.println("thread runs");
+                    
+                    helpful = r.nextBoolean();
 
                     mf.setPlayerSpeed(mf2.tg.getOpponentSpeed());
                     mf2.setPlayerSpeed(mf.tg.getOpponentSpeed());
@@ -108,15 +116,27 @@ public class TwoPlayerGame extends JFrame  {
                     
                     // this controls special blocks
                     if (mf.tg.tetrisCleared == true){
-                        mf2.specialBlock = true;
+                        System.out.println("helpful = " + helpful);
+                        
+                        if (helpful)
+                            mf.helpfulBlock = true;
+                        else
+                            mf2.harmfulBlock = true;
+                        
                         mf.tg.tetrisCleared = false;
                     }
                     if (mf2.tg.tetrisCleared == true){
-                        mf.specialBlock = true;
+                        System.out.println("helpful = " + helpful);
+                        
+                        if (helpful)
+                            mf2.helpfulBlock = true;
+                        else
+                            mf.harmfulBlock = true;
+                        
                         mf2.tg.tetrisCleared = false;
                     }
                    
-                    if (mf.tg.attacked > 0 || mf.specialBlock == true) {
+                    if (mf.tg.attacked > 0 || mf.harmfulBlock == true) {
                         mf.playerLabel.setText("Player 1 - ATTACKED!");
                     }
                     else{
@@ -126,7 +146,7 @@ public class TwoPlayerGame extends JFrame  {
                     // this uses the attacked value to add the appropriate lines to the other player's grid                   
                     mf.tg.addLines();
                     
-                    if (mf2.tg.attacked > 0 || mf2.specialBlock == true){
+                    if (mf2.tg.attacked > 0 || mf2.harmfulBlock == true){
                         mf2.playerLabel.setText("Player 2 - ATTACKED!");
                     }
                     else{

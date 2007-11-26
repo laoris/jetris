@@ -197,6 +197,62 @@ class FigureCorners extends Figure {
     }
 }
 
+class FigureDestroyer extends Figure {
+
+    private int[][] rotations; 
+    
+    private int curRotation;
+    
+    protected FigureDestroyer() {
+        super(new int[] {0,0,0,0}, 
+              new int[] {0,0,0,0});
+
+    }
+    
+    protected void rotationRight() {
+    }
+    
+    protected void rotationLeft() {
+        rotationRight();
+    }
+    
+    protected int getGridVal() {
+        return Destroyer;
+    }
+    
+    protected Color getGolor() {
+        return COL_Special;
+    }
+}
+
+class FigureBomb extends Figure {
+
+    private int[][] rotations; 
+    
+    private int curRotation;
+    
+    protected FigureBomb() {
+        super(new int[] {0,0,0,0}, 
+              new int[] {0,0,0,0});
+
+    }
+    
+    protected void rotationRight() {
+    }
+    
+    protected void rotationLeft() {
+        rotationRight();
+    }
+    
+    protected int getGridVal() {
+        return Bomb;
+    }
+    
+    protected Color getGolor() {
+        return COL_Special;
+    }
+}
+
 class FigureL extends Figure {
     
     private int[][] rotations; 

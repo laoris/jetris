@@ -25,6 +25,7 @@ public class TetrisGrid implements Serializable{
     public int attacked = 0;
     private Thread it;
     protected boolean tetrisCleared;
+    boolean destructionImpending = false;
     
     TetrisGrid(Thread it) {
     	this.it = it;
@@ -101,16 +102,55 @@ public class TetrisGrid implements Serializable{
     
     private void eliminateLines() {
         int lines = 0;
+        int k = 0;
+        
         for (Iterator iter = gLines.iterator(); iter.hasNext();) {
             int[] el = (int[]) iter.next();
             boolean isFull = true;
+            
             for (int j = 0; j < 10; j++) {
                 if(el[j]==0) isFull = false;
+                
+                // If it's a destroyer block, set destructionImpending to true
+                if (el[j] == 11) // 11 = destroyer 
+                {
+                    System.out.println(".......test print.....");
+                    destructionImpending = true;
+                }
+                else
+                    destructionImpending = false;
+              
+                if (el[j] == 12) { // 12 = bomb block
+                    
+                    if (j != 0)  gLines.get(k - 1)[j - 1] = 0;
+                    gLines.get(k - 1)[j] = 0;
+                    if (j != 9)  gLines.get(k - 1)[j + 1] = 0;
+                    
+                    if (j != 0)  gLines.get(k)[j - 1] = 0;
+                    gLines.get(k)[j] = 0;
+                    if (j != 9)  gLines.get(k)[j + 1] = 0;      
+                    
+                    if (k <= 19){
+                        if (j != 0) gLines.get(k + 1)[j - 1] = 0;
+                        gLines.get(k + 1)[j] = 0;
+                        if (j != 9) gLines.get(k + 1)[j + 1] = 0;
+                    }
+                }
             }
             if(isFull) {
                 iter.remove();
                 lines++;
+                
+                // if a line is cleared with the destroyer block, clear that player's grid
+                if (destructionImpending){
+                    System.out.println("Destruction Impending");
+                    for (int i = 0; i < 19; i++)
+                         for (int j = 0; j < 10; j++)
+                             gLines.get(i)[j] = 0;
+                } 
             }
+            
+            k++;
         }
         
         System.out.println("lines = " + lines);
@@ -135,7 +175,6 @@ public class TetrisGrid implements Serializable{
                 System.out.println("attack is set to " + attack);}
             else if (lines == 4){
                 tetrisCleared = true;
-                System.out.println("the program will insert a special block");
             }
         }
 

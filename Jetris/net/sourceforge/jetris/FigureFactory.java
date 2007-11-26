@@ -10,6 +10,9 @@ public class FigureFactory {
     private int lastLastOne;
     private int lastOne;
     
+    protected final static int Helpful = 0;
+    protected final static int Harmful = 1;
+    
     FigureFactory() {
     	counts = new int[7];
     }
@@ -30,12 +33,18 @@ public class FigureFactory {
     
     static Figure getSpecialFigure(int i) {
         Figure f;
-        i += 8; // add 8 because special blocks are 8 and up
+       
         switch (i) {
+            
+            // harmful: i = 8 through 10
             case Figure.Stair: f = new FigureStair(); break;
             case Figure.Corners: f = new FigureCorners(); break;
+            
+            // helpful: i = 11 and 12
+            case Figure.Bomb: f = new FigureBomb(); break;
+            case Figure.Destroyer: f = new FigureDestroyer(); break;
 
-            default: f = new FigureStair(); break;
+            default: f = new FigureZ(); System.out.print("error selecting special block");  break;
         }
         
         return f;  
@@ -61,9 +70,15 @@ public class FigureFactory {
         return f;
     }
     
-    Figure getRandomSpecialFigure() {
+    Figure getRandomSpecialFigure(boolean helpful) {
         
         int i = r.nextInt(2);
+        
+        if (helpful)
+            i += 11; // indices for helpful blocks start at 11
+        else
+            i += 8;  // indices for harmful blocks start at 8
+        
         Figure f = getSpecialFigure(i);
         
         i = r.nextInt(4);
