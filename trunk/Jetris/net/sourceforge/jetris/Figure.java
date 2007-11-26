@@ -12,6 +12,8 @@ public abstract class Figure {
     protected final static int Z = 7;
     protected final static int Stair = 8;
     protected final static int Corners = 9;
+    protected final static int Destroyer = 11;
+    protected final static int Bomb = 12;
     
     protected final static Color COL_I = Color.RED;
     protected final static Color COL_T = Color.GRAY;

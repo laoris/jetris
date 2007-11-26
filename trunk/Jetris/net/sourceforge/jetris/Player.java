@@ -66,7 +66,10 @@ public class Player extends JPanel  {
     private int pGameMode;
     private int pLimit;
     boolean isWinner;
-    boolean specialBlock;
+    
+    // special block variables
+    boolean harmfulBlock;
+    boolean helpfulBlock;
     
     // used to access the overall game frame
     
@@ -190,7 +193,8 @@ public class Player extends JPanel  {
         this.got = got;
         this.isDemoing = demoMode;
 	pGameMode = mode;
-        specialBlock = false;
+        helpfulBlock = false;
+        harmfulBlock = false;
 	pLimit = limit;
 	isWinner = false;
         font = new Font("Dialog", Font.PLAIN, 12);        
@@ -539,6 +543,7 @@ public class Player extends JPanel  {
     public synchronized void nextMove() {
         f.setOffset(nextX, nextY);
         
+        
         if(tg.addFigure(f)) {
             dropNext();
             f.setOffset(nextX, nextY);
@@ -639,9 +644,13 @@ public class Player extends JPanel  {
         if (isDemoing)
         	fNext = demoThread.getNextFigure();
         else
-        	if (specialBlock == true){
-                    fNext = ff.getRandomSpecialFigure();
-                    specialBlock = false;
+        	if (harmfulBlock){
+                    fNext = ff.getRandomSpecialFigure(false);  // false signifies harmful block
+                    harmfulBlock = false;
+                }
+                else if (helpfulBlock){
+                    fNext = ff.getRandomSpecialFigure(true); // true signifies helpful block
+                    helpfulBlock = false;
                 }
                 else{
                     fNext = ff.getRandomFigure();
