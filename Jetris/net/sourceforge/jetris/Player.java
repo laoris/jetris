@@ -799,6 +799,7 @@ public class Player extends JPanel  {
         tg.setOpponentSpeed(0);
         tg.resetAttack();
         playerspeed = 0;
+        speed = 0;
         isGameOver = false;
         isPause = false;
 		isWinner = false;
