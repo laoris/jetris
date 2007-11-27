@@ -125,15 +125,17 @@ public class TetrisGrid implements Serializable{
               
                 if (el[j] == 12) { // 12 = bomb block
                     
-                    if (j != 0)  gLines.get(k - 1)[j - 1] = 0;
-                    gLines.get(k - 1)[j] = 0;
-                    if (j != 9)  gLines.get(k - 1)[j + 1] = 0;
+                    if (k > 0) {
+                        if (j != 0)  gLines.get(k - 1)[j - 1] = 0;
+                        gLines.get(k - 1)[j] = 0;
+                        if (j != 9)  gLines.get(k - 1)[j + 1] = 0;
+                    }
                     
                     if (j != 0)  gLines.get(k)[j - 1] = 0;
                     gLines.get(k)[j] = 0;
                     if (j != 9)  gLines.get(k)[j + 1] = 0;      
                     
-                    if (k <= 19){
+                    if (k <= 18){
                         if (j != 0) gLines.get(k + 1)[j - 1] = 0;
                         gLines.get(k + 1)[j] = 0;
                         if (j != 9) gLines.get(k + 1)[j + 1] = 0;

@@ -221,7 +221,7 @@ class FigureDestroyer extends Figure {
     }
     
     protected Color getGolor() {
-        return COL_Special;
+        return COL_L;  // orange, to differentiate from bomb
     }
 }
 
