@@ -627,6 +627,7 @@ public class Player extends JPanel  {
                     case Figure.L: c = Figure.COL_L; break;
                     case Figure.S: c = Figure.COL_S; break;
                     case Figure.Z: c = Figure.COL_Z; break;
+                    case Figure.Destroyer: c = Figure.COL_L; break;
                     default: c = Figure.COL_Special; break;
                     }
                     cells[i][j].setBackground(c);
