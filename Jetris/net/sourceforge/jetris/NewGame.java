@@ -205,11 +205,17 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 			if (FTS.isSelected())
 			{
 				int score = Integer.parseInt(scoreField.getText());
+				if (score <= 0) {
+					throw new NumberFormatException();
+				}
 				new TwoPlayerGame(SCORE, false, score);
 			}
 			else if (FXL.isSelected())
 			{
 				int lines = Integer.parseInt(lineField.getText());
+				if (lines <= 0) {
+					throw new NumberFormatException();
+				}
 				new TwoPlayerGame(LINES, false, lines);
 			}
 			else if (FTL.isSelected())
@@ -229,7 +235,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		}
 		catch (NumberFormatException exc)
 		{
-			JOptionPane.showMessageDialog(null,"    Invalid Entry: Please type only numbers" ,"Error", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null,"  Invalid Entry: Please enter only numbers greater than zero" ,"Error", JOptionPane.PLAIN_MESSAGE);
 			System.out.println("Invalid Number Format. Create Warning.");
 		}
 	}
