@@ -489,3 +489,39 @@ class FigureZ extends Figure {
         return COL_Z;
     }
 }
+
+
+class FigureRandom extends Figure {
+
+	private static Random random = new Random();
+	
+    protected FigureRandom() {
+        super(new int[] {random.nextInt(4), random.nextInt(4), random.nextInt(4), random.nextInt(4)}, 
+              new int[] {random.nextInt(4), random.nextInt(4), random.nextInt(4), random.nextInt(4)});
+    }
+
+    protected void rotationRight() {
+    	int[] origY = arrY;
+    	arrY = arrX;
+    	arrX = new int[4];
+    	for (int i = 0; i < 4; ++i)
+    		arrX[i] = 3 - origY[i];
+    }
+    
+    protected void rotationLeft() {
+    	int[] origX = arrX;
+    	arrX = arrY;
+    	arrY = new int[4];
+    	for (int i = 0; i < 4; ++i)
+    		arrY[i] = 3 - origX[i];
+    }
+    
+    
+    protected int getGridVal() {
+        return Rand;
+    }
+    
+    protected Color getGolor() {
+        return COL_Special;
+    }
+}

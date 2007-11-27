@@ -39,6 +39,7 @@ public class FigureFactory {
             // harmful: i = 8 through 10
             case Figure.Stair: f = new FigureStair(); break;
             case Figure.Corners: f = new FigureCorners(); break;
+            case Figure.Rand: f = new FigureRandom(); break;
             
             // helpful: i = 11 and 12
             case Figure.Bomb: f = new FigureBomb(); break;
@@ -72,12 +73,12 @@ public class FigureFactory {
     
     Figure getRandomSpecialFigure(boolean helpful) {
         
-        int i = r.nextInt(2);
+        int i;
         
         if (helpful)
-            i += 11; // indices for helpful blocks start at 11
+            i = r.nextInt(2) + 11; // indices for helpful blocks start at 11
         else
-            i += 8;  // indices for harmful blocks start at 8
+            i = r.nextInt(3) + 8;  // indices for harmful blocks start at 8
         
         Figure f = getSpecialFigure(i);
         

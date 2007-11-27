@@ -120,9 +120,11 @@ public class TwoPlayerGame extends JFrame  {
                     
                     // if Player One has cleared the Tetris...
                     if (mf.tg.tetrisCleared == true){
-                       
+                    	if (isDemoing) {
+                    		mf2.tg.playerAttacked(1);
+                    	}
                         // if speed is chosen
-                        if (speedNotSpecial) {
+                    	else if (speedNotSpecial) {
                             if (helpful)
                                 mf.speed--;
                             else{
@@ -146,7 +148,11 @@ public class TwoPlayerGame extends JFrame  {
                     if (mf2.tg.tetrisCleared == true){
                        
                         // if speed is chosen
-                        if (speedNotSpecial) {
+                        if (isDemoing) {
+                        	mf.tg.playerAttacked(1);
+                        }
+                        else if (speedNotSpecial) {
+                        
                             if (helpful)
                                 mf2.speed--;
                             else{
@@ -166,7 +172,7 @@ public class TwoPlayerGame extends JFrame  {
                         mf2.tg.tetrisCleared = false;
                     }
                    
-                    if (mf.tg.attacked > 0 || mf.harmfulBlock == true || p1SpeedIncreased == true) {
+                    if (mf.tg.attacked > 0 || (mf.harmfulBlock == true && !isDemoing) || p1SpeedIncreased == true) {
                         mf.playerLabel.setText("Player 1 - ATTACKED!");
                     }
                     else{
@@ -176,7 +182,7 @@ public class TwoPlayerGame extends JFrame  {
                     // this uses the attacked value to add the appropriate lines to the other player's grid                   
                     mf.tg.addLines();
                     
-                    if (mf2.tg.attacked > 0 || mf2.harmfulBlock == true || p2SpeedIncreased == true){
+                    if (mf2.tg.attacked > 0 || (mf2.harmfulBlock == true && !isDemoing) || p2SpeedIncreased == true){
                         mf2.playerLabel.setText("Player 2 - ATTACKED!");
                     }
                     else{
