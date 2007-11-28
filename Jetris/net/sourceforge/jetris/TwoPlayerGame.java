@@ -56,12 +56,12 @@ public class TwoPlayerGame extends JFrame  {
     	private JMenuItem jetrisPause;
     	private JMenuItem jetrisNewGame;
     	private JMenuItem jetrisMusic;
-    	private JMenuItem jetrisHiScore;
+    	//private JMenuItem jetrisHiScore;
     	private JMenuItem jetrisExit;
     	private JMenuItem helpAbout;
     	private JMenuItem helpJetris;
  		private JPanel about;
- 		private JPanel hiScorePanel;  
+ 		//private JPanel hiScorePanel;  
             
     	private final Player mf;
     	private final Player mf2;
@@ -539,13 +539,13 @@ public class TwoPlayerGame extends JFrame  {
             
             mJetris.addSeparator();
             
-            jetrisHiScore = new JMenuItem("HiScore...");
-            mJetris.add(jetrisHiScore);
-            setKeyAcceleratorMenu(jetrisHiScore, 'H',0);
-            jetrisHiScore.addActionListener(mH);
-            jetrisHiScore.setMnemonic('H');
+            //jetrisHiScore = new JMenuItem("HiScore...");
+            //mJetris.add(jetrisHiScore);
+            //setKeyAcceleratorMenu(jetrisHiScore, 'H',0);
+            //jetrisHiScore.addActionListener(mH);
+            //jetrisHiScore.setMnemonic('H');
             
-            mJetris.addSeparator();
+            //mJetris.addSeparator();
             
             jetrisExit = new JMenuItem("Exit");
             mJetris.add(jetrisExit);
@@ -624,7 +624,7 @@ public class TwoPlayerGame extends JFrame  {
         if(helpDialog == null) helpDialog = new HelpDialog(this);
         helpDialog.show();
     }
-
+/*
     private void showHiScore() {
         setHiScorePanel();
         
@@ -655,12 +655,12 @@ public class TwoPlayerGame extends JFrame  {
         table.setEnabled(false);
         
         hiScorePanel.add(table,BorderLayout.CENTER);
-        JButton jb = new JButton("Publish HiScore Online");
+        //JButton jb = new JButton("Publish HiScore Online");
         //jb.addActionListener(pH);
         
-        hiScorePanel.add(jb, BorderLayout.SOUTH);
+        //hiScorePanel.add(jb, BorderLayout.SOUTH);
     }
-    
+    */
     private synchronized void pause() {
         mf2.pause();
         mf.pause();
@@ -740,8 +740,6 @@ public class TwoPlayerGame extends JFrame  {
 					}
                 } else if (tmp == jetrisMusic) {
                 	sound();               	
-                } else if (tmp == jetrisHiScore) {
-                    showHiScore();
                 } else if (tmp == jetrisExit) {
                     System.exit(0);
                 } else if (tmp == helpJetris) {

@@ -272,10 +272,10 @@ public class OnePlayerGame extends JFrame  {
         table.setEnabled(false);
         
         hiScorePanel.add(table,BorderLayout.CENTER);
-        JButton jb = new JButton("Publish HiScore Online");
+        //JButton jb = new JButton("Publish HiScore Online");
         //jb.addActionListener(pH);
         
-        hiScorePanel.add(jb, BorderLayout.SOUTH);
+        //hiScorePanel.add(jb, BorderLayout.SOUTH);
     }
     
     private synchronized void pause() {
@@ -352,13 +352,13 @@ public class OnePlayerGame extends JFrame  {
                 } else if (tmp == jetrisKeyConfig){
 					KC = new KeyConfig(1,onePlayerKeys, null);  //paramaters are number of players, player keys1, player keys2
 				}else if (tmp == jetrisHiScore) {
-                    //showHiScore();
+                    showHiScore();
                 } else if (tmp == jetrisExit) {
                     System.exit(0);
                 } else if (tmp == helpJetris) {
-                    //doHelp();
+                    doHelp();
                 } else if (tmp == helpAbout) {
-                    //doAbout();
+                    doAbout();
                 }
             } catch (Exception exc) {
                 exc.printStackTrace(System.out);
