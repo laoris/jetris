@@ -1,6 +1,8 @@
 package net.sourceforge.jetris;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.Component;
@@ -138,24 +140,30 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		//construct complete window
 		JLabel newGameLabel = new JLabel("New Game:");
 		newGameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
+		container.setLayout(new BorderLayout());
 		JLabel label = new JLabel();
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		Icon icon = new ImageIcon(TwoPlayerGame.loadImage("splash.png"));
 		label.setIcon(icon);
-		container.add(Box.createHorizontalGlue());
-		container.add(label);
-		container.add(newGameLabel);
-		container.add(Box.createRigidArea(new Dimension(0,20)));
-		container.add(mainPanel);
-		container.add(Box.createRigidArea(new Dimension(0,20)));
-		container.add(selectionPanel);
-		container.add(Box.createVerticalGlue());
+		
+		JPanel bigPanel = new JPanel();
+		bigPanel.setLayout( new BorderLayout() );
+		bigPanel.add(newGameLabel, BorderLayout.NORTH);
+		//bigPanel.add(Box.createVerticalGlue());
+		bigPanel.add(mainPanel);
+		//bigPanel.add(Box.createVerticalGlue());
+		
+		
+		//container.add(Box.createHorizontalGlue());
+		container.add(label, BorderLayout.NORTH);
+		//container.add(newGameLabel);
+		container.add(bigPanel);
+		container.add(selectionPanel, BorderLayout.SOUTH);
 		
 		setLocation(300,150); //<-- alter this to refer back to JetrisMainFrame's current screen position so it is centered
 		setResizable(false);
 		//setUndecorated(true);
-		setSize(600, 460);
+		setSize(570, 460);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //consider disabling close operation on this GUI
 		setVisible(true);
 		
