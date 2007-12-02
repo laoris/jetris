@@ -60,10 +60,10 @@ public class FigureFactory {
         Figure f = getFigure(i);
         lastLastOne = lastOne;
         lastOne = i+1;
-		if(i==0) i=7; //<-- needed to make sure that the array never goes <0
-        counts[i-1]++; //<-- there seems to be an incosistency when the stats label is made in the jetrisMain class
-				     //all the stats seem to be shifted down 1, by incrementing counts[i-1] this fixes the inconsistency
-					 //without altering the GUI
+		if(i==0) i=7;   //<-- needed to make sure that the array never goes <0
+        counts[i-1]++;  //<-- there seems to be an incosistency when the stats label is made in the jetrisMain class
+				        //all the stats seem to be shifted down 1, by incrementing counts[i-1] this fixes the inconsistency
+					    //without altering the GUI
          
         i = r.nextInt(4);
 
