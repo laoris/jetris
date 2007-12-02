@@ -117,7 +117,7 @@ public class TetrisGrid implements Serializable{
                 // If it's a destroyer block, set destructionImpending to true
                 if (el[j] == 11) // 11 = destroyer 
                 {
-                    System.out.println(".......test print.....");
+                    //System.out.println(".......test print.....");
                     destructionImpending = true;
                 }
                 else
@@ -148,7 +148,7 @@ public class TetrisGrid implements Serializable{
                 
                 // if a line is cleared with the destroyer block, clear that player's grid
                 if (destructionImpending){
-                    System.out.println("Destruction Impending");
+                    //System.out.println("Destruction Impending");
                     for (int i = 0; i < 19; i++)
                          for (int j = 0; j < 10; j++)
                              gLines.get(i)[j] = 0;
@@ -158,7 +158,7 @@ public class TetrisGrid implements Serializable{
             k++;
         }
         
-        System.out.println("lines = " + lines);
+        //System.out.println("lines = " + lines);
         
         switch (lines) {
         case 1: score +=  100 +  5*level; break;
@@ -177,7 +177,8 @@ public class TetrisGrid implements Serializable{
             opponentspeed += lines;
             if(lines == 3){
                 attack = 1;
-                System.out.println("attack is set to " + attack);}
+                //System.out.println("attack is set to " + attack);
+				}
             else if (lines == 4){
                 specialEventType = r.nextInt(7);
                 
@@ -195,7 +196,7 @@ public class TetrisGrid implements Serializable{
     
     public void addLines() {
 			
-		System.out.println("Add lines method is called, attacked = " + attacked);
+		//System.out.println("Add lines method is called, attacked = " + attacked);
                 while(attacked > 0) {
 			        	
 			Random r = new Random();
@@ -284,7 +285,7 @@ public class TetrisGrid implements Serializable{
         
         int tmp = attack;
     	attack = 0;
-           System.out.println("attack player method is called, " + tmp + " is returned.");
+          // System.out.println("attack player method is called, " + tmp + " is returned.");
     	return tmp;
     }
     
@@ -295,7 +296,7 @@ public class TetrisGrid implements Serializable{
     public void playerAttacked(int lines) {
 
         attacked += lines;
-     	System.out.println("playerAttacked is called, attacked = " + attacked);
+     	//System.out.println("playerAttacked is called, attacked = " + attacked);
     }
     
     public int getOpponentSpeed(){
