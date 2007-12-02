@@ -99,7 +99,7 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 		JPanel buttonPanel1 = new JPanel();
 		buttonPanel1.setLayout(new BoxLayout(buttonPanel1, BoxLayout.PAGE_AXIS));
 		buttonPanel1.add(normal);
-		buttonPanel1.add(Box.createRigidArea(new Dimension(0,49))); //<-- used for Centering reasons, alter this if adding new buttons to buttonPanel1, change this value
+		buttonPanel1.add(Box.createRigidArea(new Dimension(0,113))); //<-- used for Centering reasons, alter this if adding new buttons to buttonPanel1, change this value
 		
 		onePlayerPanel.setLayout(new BoxLayout(onePlayerPanel, BoxLayout.PAGE_AXIS));
 		onePlayerPanel.add(onePlayer);
