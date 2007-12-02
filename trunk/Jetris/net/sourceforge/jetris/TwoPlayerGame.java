@@ -112,9 +112,6 @@ public class TwoPlayerGame extends JFrame  {
                     helpful = r.nextBoolean();
                     speedNotSpecial = r.nextBoolean();
                     
-                    helpful = true;
-                    speedNotSpecial = false;
-                    
                     // this keeps the attacked value in the tetris grid updated
                     mf.tg.playerAttacked(mf2.tg.attackPlayer());
                     mf2.tg.playerAttacked(mf.tg.attackPlayer());
