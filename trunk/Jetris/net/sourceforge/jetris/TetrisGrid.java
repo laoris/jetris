@@ -110,6 +110,7 @@ public class TetrisGrid implements Serializable{
         for (Iterator iter = gLines.iterator(); iter.hasNext();) {
             int[] el = (int[]) iter.next();
             boolean isFull = true;
+            destructionImpending = false;
             
             for (int j = 0; j < 10; j++) {
                 if(el[j]==0) isFull = false;
@@ -120,8 +121,6 @@ public class TetrisGrid implements Serializable{
                     //System.out.println(".......test print.....");
                     destructionImpending = true;
                 }
-                else
-                    destructionImpending = false;
               
                 if (el[j] == 12) { // 12 = bomb block
                     
