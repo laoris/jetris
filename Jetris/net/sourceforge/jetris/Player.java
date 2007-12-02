@@ -150,7 +150,9 @@ public class Player extends JPanel  {
                         g.setFont(font);
 						g.setColor(Color.BLACK);
                         g.drawString("PAUSED", 47, 250);
+                    
                     } else if(count >= 1000) {
+                        
                         count = 0;
                         incSec();
                         time.setText(this.toString());
@@ -258,6 +260,10 @@ public class Player extends JPanel  {
             }
         }
         return playPanel;
+    }
+    
+    public void pauseRepaint(){
+        playPanel.repaint();
     }
     
     public JPanel getMenuPanel() {

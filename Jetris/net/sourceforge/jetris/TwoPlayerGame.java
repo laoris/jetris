@@ -112,6 +112,9 @@ public class TwoPlayerGame extends JFrame  {
                     helpful = r.nextBoolean();
                     speedNotSpecial = r.nextBoolean();
                     
+                    helpful = true;
+                    speedNotSpecial = false;
+                    
                     // this keeps the attacked value in the tetris grid updated
                     mf.tg.playerAttacked(mf2.tg.attackPlayer());
                     mf2.tg.playerAttacked(mf.tg.attackPlayer());
@@ -126,7 +129,7 @@ public class TwoPlayerGame extends JFrame  {
                         // if speed is chosen
                     	else if (speedNotSpecial) {
                             if (helpful)
-                                mf.speed--;
+                                if (mf.speed > 0)  mf.speed--;
                             else{
                                 mf2.speed++;
                                 p2SpeedIncreased = true;
@@ -154,7 +157,7 @@ public class TwoPlayerGame extends JFrame  {
                         else if (speedNotSpecial) {
                         
                             if (helpful)
-                                mf2.speed--;
+                                if (mf2.speed > 0)  mf2.speed--;
                             else{
                                 mf.speed++;
                                 p1SpeedIncreased = true;
@@ -422,7 +425,7 @@ public class TwoPlayerGame extends JFrame  {
 				
 			
 				
-				r.add(Box.createRigidArea(new Dimension(0, 160)));
+				r.add(Box.createRigidArea(new Dimension(0, 184)));
         
         //Restart Button
         
@@ -662,6 +665,9 @@ public class TwoPlayerGame extends JFrame  {
     }
     */
     private synchronized void pause() {
+        mf.pauseRepaint();
+        mf2.pauseRepaint();
+        
         mf2.pause();
         mf.pause();
         pressedKeys.clear();
