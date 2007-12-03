@@ -125,8 +125,8 @@ public class TwoPlayerGame extends JFrame  {
                     	}
                         // if speed is chosen
                     	else if (speedNotSpecial) {
-                            if (helpful)
-                                if (mf.speed > 0)  mf.speed--;
+                            if (helpful && mf.speed > 0)
+                                mf.speed--;
                             else{
                                 mf2.speed++;
                                 p2SpeedIncreased = true;
@@ -153,8 +153,8 @@ public class TwoPlayerGame extends JFrame  {
                         }
                         else if (speedNotSpecial) {
                         
-                            if (helpful)
-                                if (mf2.speed > 0)  mf2.speed--;
+                            if (helpful && mf2.speed > 0)
+                                mf2.speed--;
                             else{
                                 mf.speed++;
                                 p1SpeedIncreased = true;
