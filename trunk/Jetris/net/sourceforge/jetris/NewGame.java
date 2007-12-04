@@ -209,7 +209,9 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 	{
 		try
 		{
-			clip.stop();
+			if (clip != null) {
+				clip.stop();
+			}
 			if (FTS.isSelected())
 			{
 				int score = Integer.parseInt(scoreField.getText());
@@ -239,17 +241,18 @@ public class NewGame extends JFrame implements ChangeListener, MouseListener, Ac
 				new OnePlayerGame();
 			}
 
+			this.setVisible(false);
 			this.dispose();
 		}
 		catch (NumberFormatException exc)
 		{
 			JOptionPane.showMessageDialog(null,"  Invalid Entry: Please enter only numbers greater than zero" ,"Error", JOptionPane.PLAIN_MESSAGE);
-			System.out.println("Invalid Number Format. Create Warning.");
 		}
 	}
 	
 	public void actionPerformed(ActionEvent e)
 	{
+		this.setVisible(false);
 		this.dispose();
 	}
 	public void mouseEntered(MouseEvent e) { }
